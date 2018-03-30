@@ -16,6 +16,7 @@ public class Solution {
 
     public static void main(String[] args) {
 
-
+        int foo = 0;
+        foo = fact(5); // debug this
     }
 }

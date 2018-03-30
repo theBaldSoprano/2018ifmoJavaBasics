@@ -13,13 +13,14 @@ public class List {
 
     }
 
-    Node first;
+    private Node first;
 
-    Node last;
+    private Node last;
 
+    @Deprecated
     void add(String line) {
         if (first == null) {
-            first = last =  new Node(line);
+            first = last = new Node(line);
             return;
         }
         Node current = new Node(line);
@@ -27,18 +28,34 @@ public class List {
         last = current;
     }
 
-    public String get(int index){
-        Node current  = first;
+    public Node get(int index) {
+
+        Node current = first;
         for (int i = 0; i < index; i++) {
-            current = first.next;
+            current = current.next;
         }
-        return current.line;
+        return current;
     }
 
-    public void delete(int index){
+    public void remove(int index) {
+        if (index == 0){
+            this.first = first.next;
+            return;
+        }
+        Node left = this.get(index - 1);
+        Node right = this.get(index).next;
+        left.next = right;
+    }
 
-        //todo
+    public int size(){
 
+        int size = 0;
+        Node tmp = first;
+        while (tmp != null){
+            size++;
+            tmp = tmp.next;
+        }
+        return size;
     }
 }
 

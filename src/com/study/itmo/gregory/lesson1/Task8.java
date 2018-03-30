@@ -50,4 +50,41 @@ public class Task8 {
 
     }
 
+    public static int[] getMostFrequentlyAppearedAnotherWay(int[] array, int n) {
+
+        int[] result = new int[array.length];
+
+        int current;
+        int last = array[0] + 111;
+
+
+        for (int i = 0; i < array.length; i++) {
+            current = array[i];
+            if (current != last) {
+                int index = getFirstAppearence(array, current);
+                for (int j = 0; j < array.length; j++) {
+                    if (array[j] == current) result[index]++;
+                }
+            }
+            last = current;
+        }
+
+        //todo доделать
+
+        return result;
+    }
+
+    public static int getFirstAppearence(int[] array, int n) {
+
+        int index = -1;
+
+        for (int i = 0; i < array.length; i++) {
+
+            if (array[i] == n) {
+                index = i;
+                break;
+            }
+        }
+        return index;
+    }
 }

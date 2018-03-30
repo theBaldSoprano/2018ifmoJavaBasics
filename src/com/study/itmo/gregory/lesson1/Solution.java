@@ -1,8 +1,10 @@
 package com.study.itmo.gregory.lesson1;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import static com.study.itmo.gregory.lesson1.Task8.getMostFrequentlyAppeared;
+import static com.study.itmo.gregory.lesson1.Task8.getMostFrequentlyAppearedAnotherWay;
 
 
 public class Solution {
@@ -11,14 +13,10 @@ public class Solution {
 
         int[] array = {5, 66, 6, 3333, 5, 3, 5, 5, 3333, 3333, 66};
 
-        int n = 2;
 
-        int[] result = getMostFrequentlyAppeared(array, n);
+        int[] result = getMostFrequentlyAppearedAnotherWay(array, 8);
 
-        for (int i = 0; i < result.length; i++) {
-            System.out.println(result[i]);
-        }
-
+        System.out.println(Arrays.toString(result));
 
 
 

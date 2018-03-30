@@ -1,6 +1,5 @@
 package com.study.itmo.gregory.lesson3;
 
-import static com.study.itmo.gregory.lesson3.Task4.getWordsAmount;
 
 public class Solution {
 
@@ -14,7 +13,6 @@ public class Solution {
         lib.addText("набор");
         lib.addText("набор");
         lib.addText("набор");
-
 
         lib.printMatches("человек");
 
