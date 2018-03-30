@@ -1,8 +1,7 @@
 package com.study.itmo.gregory.lesson5;
 
 
-
-public class Solution  {
+public class Solution {
 
 /*todo создать свой класс МойСтрингБилдер
 у него будет свой метод аппэнд
@@ -11,32 +10,32 @@ public class Solution  {
 и потом выполняя отмену действия будет выполняться
  */
 
-class MyStringBuilder{
+    class MyStringBuilder {
 
 
-    private StringBuilder stringBuilder;
+        private StringBuilder stringBuilder;
 
 
-    public MyStringBuilder append(String str) {
+        public MyStringBuilder append(String str) {
 
-        stringBuilder.append(str);
+            stringBuilder.append(str);
 
-        //todo тут дописывай свое действие
-        //так можно кастомайзить поведения если не заовверрайдить
-        //стрингбилдер (выше поле) хранит стринг с которым мы работаем
-        //далее просто вызови его туСтринг
+            //todo тут дописывай свое действие
+            //так можно кастомайзить поведения если не заовверрайдить
+            //стрингбилдер (выше поле) хранит стринг с которым мы работаем
+            //далее просто вызови его туСтринг
 
-        return this;
+            return this;
+        }
+
+        //перегрузить конструктор
     }
 
-    //перегрузить конструктор
-}
-
-public static void main(String[] args) {
-    String s = "foo";
+    public static void main(String[] args) {
+        String s = "foo";
 
 
-}
+    }
 
 
 }
