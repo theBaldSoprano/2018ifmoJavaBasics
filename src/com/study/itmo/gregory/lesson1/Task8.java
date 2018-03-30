@@ -7,7 +7,7 @@ import java.util.*;
 
 public class Task8 {
 
-    public static int[] getMostFrequentlyAppeared(int[] array, int n) {
+    public static int[] getMostFrequentlyAppearedByMap(int[] array, int n) {
 
         HashMap<Integer, Integer> map = new HashMap<>();
 
@@ -50,31 +50,34 @@ public class Task8 {
 
     }
 
-    public static int[] getMostFrequentlyAppearedAnotherWay(int[] array, int n) {
+    public static int[] getMostFrequentlyAppearedByLoops(int[] array, int n) {
 
-        int[] result = new int[array.length];
-
+        int[] temp = new int[array.length];
         int current;
-        int last = array[0] + 111;
-
-
         for (int i = 0; i < array.length; i++) {
             current = array[i];
-            if (current != last) {
-                int index = getFirstAppearence(array, current);
+            if (i == getFirstAppearance(array, current)) {
+                int index = getFirstAppearance(array, current);
                 for (int j = 0; j < array.length; j++) {
-                    if (array[j] == current) result[index]++;
+                    if (array[j] == current) temp[index]++;
                 }
             }
-            last = current;
         }
-
-        //todo доделать
-
+        int elementsAmount = 0;
+        for (int i = 0; i < temp.length; i++) {
+            if (temp[i] != 0) elementsAmount++;
+        }
+        if (n > elementsAmount) throw new IllegalArgumentException();
+        int[] result = new int[n];
+        for (int i = 0; i < result.length; i++) {
+            int indexOfMax = getMaxIndex(temp);
+            result[i] = array[indexOfMax];
+            temp[indexOfMax] = 0;
+        }
         return result;
     }
 
-    public static int getFirstAppearence(int[] array, int n) {
+    public static int getFirstAppearance(int[] array, int n) {
 
         int index = -1;
 
@@ -83,6 +86,19 @@ public class Task8 {
             if (array[i] == n) {
                 index = i;
                 break;
+            }
+        }
+        return index;
+    }
+
+    public static int getMaxIndex(int[] array) {
+        int index = 0;
+        int compare = array[0];
+
+        for (int i = 0; i < array.length; i++) {
+            if (compare < array[i]) {
+                compare = array[i];
+                index = i;
             }
         }
         return index;
