@@ -1,5 +1,8 @@
 package com.study.itmo.gregory.lesson5.mystringbuilderTask3;
 
+import com.study.itmo.gregory.lesson2.Container;
+import com.study.itmo.gregory.lesson2.List;
+
 public class MyStringBuilder {
 
     /*todo создать свой класс МойСтрингБилдер
@@ -10,12 +13,23 @@ public class MyStringBuilder {
  */
 
     private StringBuilder stringBuilder;
+    private List deeds = new List();
+
+    public MyStringBuilder undo(){
+
+        deeds.getLast().undo();
+
+        return this;
+
+    }
+
 
     public MyStringBuilder(String str){
         stringBuilder = new StringBuilder(str);
     }
 
     public MyStringBuilder append(String str) {
+
         stringBuilder.append(str);
 
         //todo тут дописывай свое действие
@@ -23,6 +37,21 @@ public class MyStringBuilder {
         //стрингбилдер (выше поле) хранит стринг с которым мы работаем
         //далее просто вызови его туСтринг
 
+        deeds.add(new Container(str.length()){
+            @Override
+            public void undo() {
+
+                stringBuilder.delete(
+                        stringBuilder.length() - tmp,
+                        stringBuilder.length());
+            }
+        });
+
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return stringBuilder.toString();
     }
 }

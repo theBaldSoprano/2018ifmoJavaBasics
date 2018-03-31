@@ -2,23 +2,34 @@ package com.study.itmo.gregory.lesson2;
 
 public class List {
 
+    private Node first;
+    private Node last;
+
     private class Node {
 
         String line;
-        Node next;
+        public Container deed;
 
+        Node next;
+        public Node(Container deed){
+            this.deed = deed;
+        }
         public Node(String line) {
             this.line = line;
         }
-
     }
 
-    private Node first;
+    public void add(Container deed) {
+        if (first == null) {
+            first = last = new Node(deed);
+            return;
+        }
+        Node current = new Node(deed);
+        last.next = current;
+        last = current;
+    }
 
-    private Node last;
-
-    @Deprecated
-    void add(String line) {
+    public void add(String line) {
         if (first == null) {
             first = last = new Node(line);
             return;
@@ -35,6 +46,10 @@ public class List {
             current = current.next;
         }
         return current;
+    }
+
+    public Container getLast() {
+        return last.deed;
     }
 
     public void remove(int index) {
