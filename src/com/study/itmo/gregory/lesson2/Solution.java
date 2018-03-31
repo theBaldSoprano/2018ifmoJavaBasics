@@ -1,6 +1,7 @@
 package com.study.itmo.gregory.lesson2;
 
 
+import com.study.itmo.gregory.lesson2.list.List;
 
 class Solution {
 

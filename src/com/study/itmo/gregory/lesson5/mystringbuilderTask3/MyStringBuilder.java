@@ -1,7 +1,7 @@
 package com.study.itmo.gregory.lesson5.mystringbuilderTask3;
 
 import com.study.itmo.gregory.lesson2.Container;
-import com.study.itmo.gregory.lesson2.List;
+import com.study.itmo.gregory.lesson2.list.List;
 
 public class MyStringBuilder {
 

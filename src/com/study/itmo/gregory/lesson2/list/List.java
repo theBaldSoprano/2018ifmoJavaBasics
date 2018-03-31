@@ -1,40 +1,28 @@
-package com.study.itmo.gregory.lesson2;
+package com.study.itmo.gregory.lesson2.list;
+
+import com.study.itmo.gregory.lesson2.Container;
 
 public class List {
 
     private Node first;
     private Node last;
 
-    private class Node {
-
-        String line;
-        public Container deed;
-
-        Node next;
-        public Node(Container deed){
-            this.deed = deed;
-        }
-        public Node(String line) {
-            this.line = line;
-        }
-    }
-
     public void add(Container deed) {
         if (first == null) {
-            first = last = new Node(deed);
+            first = last = new ContainerNode(deed);
             return;
         }
-        Node current = new Node(deed);
+        Node current = new ContainerNode(deed);
         last.next = current;
         last = current;
     }
 
     public void add(String line) {
         if (first == null) {
-            first = last = new Node(line);
+            first = last = new StringNode(line);
             return;
         }
-        Node current = new Node(line);
+        Node current = new StringNode(line);
         last.next = current;
         last = current;
     }
@@ -48,8 +36,8 @@ public class List {
         return current;
     }
 
-    public Container getLast() {
-        return last.deed;
+    public Node getLast() {
+        return last;
     }
 
     public void remove(int index) {
