@@ -13,14 +13,13 @@ public class MyStringBuilder {
  */
 
     private StringBuilder stringBuilder;
-    private List deeds = new List();
+    private List<Container> deeds = new List<>();
 
     public MyStringBuilder undo(){
 
-        deeds.getLast().undo();
+        deeds.getLast().getData().undo();
 
         return this;
-
     }
 
 
@@ -37,17 +36,16 @@ public class MyStringBuilder {
         //стрингбилдер (выше поле) хранит стринг с которым мы работаем
         //далее просто вызови его туСтринг
 
-        deeds.add(new Container(str.length()){
-            @Override
-            public void undo() {
-
-                stringBuilder.delete(
-                        stringBuilder.length() - tmp,
-                        stringBuilder.length());
-            }
-        });
+        deeds.add(() -> stringBuilder.delete(
+                stringBuilder.length() - str.length(),
+                stringBuilder.length()));
 
         return this;
+//        todo посмотреть другие языки на jvm
+        // гугл лямбда-исчисления
+        // грамматика Языка программирования
+        // generics
+        //
     }
 
     @Override

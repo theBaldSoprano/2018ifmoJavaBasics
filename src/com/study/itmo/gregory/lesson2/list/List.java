@@ -1,42 +1,31 @@
 package com.study.itmo.gregory.lesson2.list;
 
-import com.study.itmo.gregory.lesson2.Container;
+public class List <K> {
 
-public class List {
+    private Node<K> first;
+    private Node<K> last;
 
-    private Node first;
-    private Node last;
-
-    public void add(Container deed) {
+    public void add(K foo) {
         if (first == null) {
-            first = last = new ContainerNode(deed);
+            first = last = new Node<K>(foo);
             return;
         }
-        Node current = new ContainerNode(deed);
+        Node current = new Node<K>(foo);
         last.next = current;
         last = current;
     }
 
-    public void add(String line) {
-        if (first == null) {
-            first = last = new StringNode(line);
-            return;
-        }
-        Node current = new StringNode(line);
-        last.next = current;
-        last = current;
-    }
 
-    public Node get(int index) {
+    public Node<K> get(int index) {
 
-        Node current = first;
+        Node<K> current = first;
         for (int i = 0; i < index; i++) {
             current = current.next;
         }
         return current;
     }
 
-    public Node getLast() {
+    public Node<K> getLast() {
         return last;
     }
 

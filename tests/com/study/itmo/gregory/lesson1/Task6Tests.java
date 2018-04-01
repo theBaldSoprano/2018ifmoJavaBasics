@@ -1,4 +1,4 @@
-package com.study.itmo.gregory.lesson1UnitTests;
+package com.study.itmo.gregory.lesson1;
 
 import org.junit.jupiter.api.Test;
 
