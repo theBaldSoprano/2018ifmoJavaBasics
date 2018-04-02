@@ -14,16 +14,31 @@ public class MyStringBuilder {
 
     private StringBuilder stringBuilder;
     private List<Container> deeds = new List<>();
+    private List<Listener> listeners = new List<>();
 
-    public MyStringBuilder undo(){
+    public MyStringBuilder undo() {
 
         deeds.getLast().getData().undo();
+
+        notifyListeners();
+
+        //todo удаление последнего элемента
 
         return this;
     }
 
+    public void addListener(Listener listener){
+        listeners.add(listener);
+    }
 
-    public MyStringBuilder(String str){
+    public void notifyListeners(){
+        for (int i = 0; i < listeners.size(); i++) {
+            listeners.get(i).getData().onChange();
+            //fixme сделать чтобы так не было
+        }
+    }
+
+    public MyStringBuilder(String str) {
         stringBuilder = new StringBuilder(str);
     }
 
@@ -31,14 +46,18 @@ public class MyStringBuilder {
 
         stringBuilder.append(str);
 
+        notifyListeners();
+
         //todo тут дописывай свое действие
         //так можно кастомайзить поведения если не заовверрайдить
         //стрингбилдер (выше поле) хранит стринг с которым мы работаем
         //далее просто вызови его туСтринг
 
-        deeds.add(() -> stringBuilder.delete(
+        deeds.add(() ->
+                stringBuilder.delete(
                 stringBuilder.length() - str.length(),
-                stringBuilder.length()));
+                stringBuilder.length())
+        );
 
         return this;
 //        todo посмотреть другие языки на jvm

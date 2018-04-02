@@ -15,6 +15,8 @@ public class List <K> {
         last = current;
     }
 
+    //fixme приемы ооп паттерны гамма
+
 
     public Node<K> get(int index) {
 
@@ -28,6 +30,8 @@ public class List <K> {
     public Node<K> getLast() {
         return last;
     }
+
+    //todo сделать итератор длямоего листа
 
     public void remove(int index) {
         if (index == 0){
