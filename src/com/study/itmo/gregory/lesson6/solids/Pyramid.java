@@ -1,6 +1,6 @@
 package com.study.itmo.gregory.lesson6.solids;
 
-public class Pyramid extends Shape{
+public class Pyramid implements IsShape {
 
     double height;
     double baseArea;

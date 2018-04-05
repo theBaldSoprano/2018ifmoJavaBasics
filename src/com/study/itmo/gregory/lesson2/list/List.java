@@ -31,7 +31,7 @@ public class List <K> {
         return last;
     }
 
-    //todo сделать итератор длямоего листа
+    //todo сделать итератор для моего листа
 
     public void remove(int index) {
         if (index == 0){

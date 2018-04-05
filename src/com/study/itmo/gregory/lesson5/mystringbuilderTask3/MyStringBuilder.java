@@ -53,6 +53,7 @@ public class MyStringBuilder {
         //стрингбилдер (выше поле) хранит стринг с которым мы работаем
         //далее просто вызови его туСтринг
 
+
         deeds.add(() ->
                 stringBuilder.delete(
                 stringBuilder.length() - str.length(),

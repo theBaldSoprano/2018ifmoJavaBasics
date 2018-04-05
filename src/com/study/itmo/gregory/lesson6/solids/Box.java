@@ -8,7 +8,7 @@ public class Box{
         this.volume = volume;
     }
 
-    public boolean canAdd(Shape shape){
+    public boolean canAdd(IsShape shape){
         return volume - shape.getVolume() > 0;
     }
 
@@ -16,7 +16,7 @@ public class Box{
         return this.volume;
     }
 
-    public void add(Shape shape){
+    public void add(IsShape shape){
         if (canAdd(shape))
             volume = volume - shape.getVolume();
     }
