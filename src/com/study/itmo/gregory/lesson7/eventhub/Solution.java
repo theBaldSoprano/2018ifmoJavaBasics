@@ -1,6 +1,5 @@
 package com.study.itmo.gregory.lesson7.eventhub;
 
-import static com.study.itmo.gregory.lesson7.eventhub.EventHub.EVENT_HUB;
 
 public class Solution {
     public static void main(String[] args) {
@@ -13,17 +12,20 @@ public class Solution {
         SubscriberPinky pinky = new SubscriberPinky();
         SubscriberInky inky = new SubscriberInky();
 
-        EVENT_HUB.subscribe(zaz, new NewFooMessage());
-        EVENT_HUB.subscribe(zaz, new NewBarMessage());
-        EVENT_HUB.subscribe(zaz, new NewBazMessage());
-        EVENT_HUB.subscribe(pinky, new NewBazMessage());
-        EVENT_HUB.subscribe(inky, new NewBarMessage());
+        EventHub.getInstance().subscribe(zaz, NewFooMessage.class);
+        EventHub.getInstance().subscribe(zaz, NewBarMessage.class);
+        EventHub.getInstance().subscribe(zaz, NewBazMessage.class);
+        EventHub.getInstance().subscribe(pinky, NewBazMessage.class);
+        EventHub.getInstance().subscribe(inky, NewBarMessage.class);
 
         foo.doSome();
+        EventHub.getInstance().push(foo);
         System.out.println("*********************");
         bar.doSome();
+        EventHub.getInstance().push(bar);
         System.out.println("*********************");
         baz.doSome();
+        EventHub.getInstance().push(baz);
 
 
     }
