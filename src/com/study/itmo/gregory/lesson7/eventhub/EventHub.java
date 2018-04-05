@@ -29,7 +29,6 @@ public class EventHub {
                 for (Subscribable subscriber : pair.getValue()){
                     subscriber.onEvent(event);
                 }
-                return;
             }
         }
     }

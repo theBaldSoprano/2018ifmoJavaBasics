@@ -13,9 +13,9 @@ public class Solution {
         SubscriberPinky pinky = new SubscriberPinky();
         SubscriberInky inky = new SubscriberInky();
 
-        //EVENT_HUB.subscribe(zaz, new NewFooMessage());
-        //EVENT_HUB.subscribe(zaz, new NewBarMessage());
-        //EVENT_HUB.subscribe(zaz, new NewBazMessage());
+        EVENT_HUB.subscribe(zaz, new NewFooMessage());
+        EVENT_HUB.subscribe(zaz, new NewBarMessage());
+        EVENT_HUB.subscribe(zaz, new NewBazMessage());
         EVENT_HUB.subscribe(pinky, new NewBazMessage());
         EVENT_HUB.subscribe(inky, new NewBarMessage());
 
