@@ -6,7 +6,7 @@ import static com.study.itmo.gregory.lesson8.multiarrays.TasksMultiArrays.isSqua
 public class Solution {
 
     public static void main(String[] args) {
-        char [] arr = {'а','а','б','б','а','п','к'};
+        char [] arr = {'а','а','a','a','б','б','б','р','р','к'};
         char most = findMostFreq(arr);
         System.out.println(most);
 
