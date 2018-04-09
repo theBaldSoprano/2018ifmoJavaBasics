@@ -1,10 +1,8 @@
 package com.study.itmo.gregory.lesson8.multiarrays;
 
-import java.util.Arrays;
 import java.util.Random;
 
 public class TasksMultiArrays {
-
 
     public static int getMaxElement(int[][] array) {
 
@@ -85,7 +83,7 @@ public class TasksMultiArrays {
         char mostFreq = alphabet[0][0];
         char max = 0;
         for (int i = 0; i < alphabet.length; i++) {
-            if (alphabet[i][1] > max){
+            if (alphabet[i][1] > max) {
                 mostFreq = alphabet[i][0];
                 max = alphabet[i][1];
             }
@@ -93,8 +91,28 @@ public class TasksMultiArrays {
         return mostFreq;
     }
 
+    public static char[] symbols = {'a', 'b', 'c', 'd', 'e'};
+    public static int[] weight = {80, 40, 5, 11, 50};
+
+    public static char getCharRandomlyByWeight(char[] symbols, int[] weight) {
+
+        int[] weightMap = new int[weight.length];
+        for (int i = 0; i < weightMap.length; i++) {
+            for (int j = 0; j < i + 1; j++) {
+                weightMap[i] += weight[j];
+            }
+        }
+        int ran = new Random().nextInt(weightMap[weightMap.length - 1]);
+
+        for (int i = 0; i < weightMap.length; i++) {
+            if (ran <= weightMap[i]) return symbols[i];
+        }
+        throw new IllegalArgumentException();
+    }
+
+
     //доделать мультимассивы - символы и их вес и на рандом выпадают они по весам
-    //поворот на 90
+    //todo поворот на 90
 
     //todo NOTE ** почитать ИГЛЫ бУФФОНА
     //реализовать вычисленние (поиск) числа ПИ
