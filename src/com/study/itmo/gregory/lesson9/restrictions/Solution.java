@@ -22,7 +22,7 @@ public class Solution {
 
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-        Date date = sdf.parse("20170315");
+        Date date = sdf.parse("2015 0315");
 
 
         System.out.println(

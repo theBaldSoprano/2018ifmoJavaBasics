@@ -1,9 +1,9 @@
 package com.study.itmo.gregory.lesson8.multiarrays;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class TasksMultiArrays {
-
 
 
     public static int getMaxElement(int[][] array) {
@@ -72,27 +72,33 @@ public class TasksMultiArrays {
     }
 
     public static char findMostFreq(char[] a) {
-
-        char [][] alphabet = {{'а', 0},{'б', 0},{'в', 0},{'г', 0},{'д', 0},{'е', 0},{'ж', 0},{'з', 0},{'и', 0},{'к', 0},{'л', 0},
-                {'м', 0},{'н', 0},{'о', 0},{'п', 0},{'р', 0},{'с', 0},{'т', 0},{'у', 0},{'ф', 0},{'х', 0},{'ц', 0},{'ч', 0},{'щ', 0},
-                {'ш', 0},{'ъ', 0},{'ь', 0},{'э', 0},{'ю', 0},{'я', 0},{'й', 0},{'ц', 0},{'ё', 0}};
-
+        char[][] alphabet = {{'а', 0}, {'б', 0}, {'в', 0}, {'г', 0}, {'д', 0}, {'е', 0}, {'ж', 0}, {'з', 0}, {'и', 0}, {'к', 0}, {'л', 0},
+                {'м', 0}, {'н', 0}, {'о', 0}, {'п', 0}, {'р', 0}, {'с', 0}, {'т', 0}, {'у', 0}, {'ф', 0}, {'х', 0}, {'ц', 0}, {'ч', 0}, {'щ', 0},
+                {'ш', 0}, {'ъ', 0}, {'ь', 0}, {'э', 0}, {'ю', 0}, {'я', 0}, {'й', 0}, {'ц', 0}, {'ё', 0}};
         for (int i = 0; i < a.length; i++) {
             for (int j = 0; j < alphabet.length; j++) {
-                if (alphabet[j][0] == a[i]){
+                if (alphabet[j][0] == a[i]) {
                     alphabet[j][1]++;
                 }
             }
         }
-        char max = 0;
         char mostFreq = alphabet[0][0];
+        char max = 0;
         for (int i = 0; i < alphabet.length; i++) {
-            for (int j = 1; j < alphabet[i].length; j++) {
-                if (alphabet[i][j] > max) mostFreq = alphabet[i][0];
+            if (alphabet[i][1] > max){
+                mostFreq = alphabet[i][0];
+                max = alphabet[i][1];
             }
         }
         return mostFreq;
     }
 
+    //доделать мультимассивы - символы и их вес и на рандом выпадают они по весам
+    //поворот на 90
+
+    //todo NOTE ** почитать ИГЛЫ бУФФОНА
+    //реализовать вычисленние (поиск) числа ПИ
+    //гугл полином и ряды тейлора
+    //как хранить число пи формулой
 
 }
