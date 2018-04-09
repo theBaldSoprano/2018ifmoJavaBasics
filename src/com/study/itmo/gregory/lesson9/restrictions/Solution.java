@@ -27,7 +27,7 @@ public class Solution {
 
         System.out.println(
                 new Informer().getRestrictedRoads(
-                        "C:\\Users\\GregorySSDNB\\Documents\\data1.csv",
+                        "C:\\Users\\GregorySSDNB\\Documents\\data.csv",
                         date
                 ));
 

@@ -21,13 +21,12 @@ public class Informer implements RoadChecker {
         for (int i = 0; i < size; i++) {
             String beginDate = data.get("d.n.ogr").get(i);
             String endDate = data.get("data_snjatija_ogr").get(i);
-            Date begin = simpleDateFormat.parse(beginDate);
+            String current = simpleDateFormat.format(date);
 
             if (endDate.equals("-")) {
-                if (date.after(begin)) amount++;
+                if (current.compareTo(beginDate) > -1) amount++;
             } else {
-                Date end = simpleDateFormat.parse(endDate);
-                if (date.after(begin) && date.before(end)) amount++;
+                if (current.compareTo(beginDate) > -1 && current.compareTo(endDate) < 1) amount++;
             }
         }
         return amount;
