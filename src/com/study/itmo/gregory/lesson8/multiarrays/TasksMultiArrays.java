@@ -110,8 +110,6 @@ public class TasksMultiArrays {
         throw new IllegalArgumentException();
     }
 
-
-    //доделать мультимассивы - символы и их вес и на рандом выпадают они по весам
     //todo поворот на 90
 
     //todo NOTE ** почитать ИГЛЫ бУФФОНА
