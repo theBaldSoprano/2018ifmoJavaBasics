@@ -22,7 +22,7 @@ public class Solution {
             String name = reader.readLine();
             Random ran = new Random();
 
-            IsShape shape = null;
+            Shape shape = null;
             switch (name) {
                 case "ball":
                     shape = new Ball(ran.nextDouble());

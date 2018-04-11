@@ -38,7 +38,7 @@ public class Solution {
         String[] list = {"foo", null, "bar"};
         System.out.println(Arrays.toString(list));
 
-        Filter filter = new FilterNullStrings();
+        Filter filter = new FilterNull();
         list = filter(list, filter);
         System.out.println(Arrays.toString(list));
 

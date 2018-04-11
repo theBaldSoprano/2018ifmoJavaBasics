@@ -1,24 +1,21 @@
 package com.study.itmo.gregory.lesson6.solids;
 
-public class Box{
+import java.util.ArrayList;
 
-    double volume;
+public class Box<T extends Shape>{
+    ArrayList<T> shapes;
 
-    public Box(double volume) {
-        this.volume = volume;
+    public void put(T shape){
+        shapes.add(shape);
     }
-
-    public boolean canAdd(IsShape shape){
-        return volume - shape.getVolume() > 0;
+    public Box() {
+        this.shapes = new ArrayList<T>();
     }
-
-    public double getVolume(){
-        return this.volume;
+    public Double getTotalVolume(){
+        double volume = 0;
+        for (T shape : shapes){
+            volume += shape.getVolume();
+        }
+        return volume;
     }
-
-    public void add(IsShape shape){
-        if (canAdd(shape))
-            volume = volume - shape.getVolume();
-    }
-
 }

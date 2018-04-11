@@ -1,10 +1,12 @@
 package com.study.itmo.gregory.lesson5.filterTask2;
 
-public class ComparatorBySize extends Comparator{
+import java.util.Comparator;
+
+public class ComparatorBySize implements Comparator<CharSequence>{
 
 
     @Override
-    public int compare(String s1, String s2) {
+    public int compare(CharSequence s1, CharSequence s2) {
         int size1 = s1.length();
         int size2 = s2.length();
 

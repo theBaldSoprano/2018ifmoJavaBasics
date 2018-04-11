@@ -2,10 +2,10 @@ package com.study.itmo.gregory.lesson6.solids;
 
 import org.jetbrains.annotations.NotNull;
 
-public interface IsShape extends Comparable<IsShape> {
+public interface Shape extends Comparable<Shape> {
 
     @Override
-    default int compareTo(@NotNull IsShape o) {
+    default int compareTo(@NotNull Shape o) {
 
         if (this.getVolume() < o.getVolume()) return -1;
         if (this.getVolume() == o.getVolume()) return 0;

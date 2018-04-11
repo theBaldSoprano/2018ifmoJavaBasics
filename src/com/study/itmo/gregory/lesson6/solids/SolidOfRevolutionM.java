@@ -1,6 +1,6 @@
 package com.study.itmo.gregory.lesson6.solids;
 
-public abstract class SolidOfRevolutionM implements IsShape {
+public abstract class SolidOfRevolutionM implements Shape {
 
     protected double radius;
 

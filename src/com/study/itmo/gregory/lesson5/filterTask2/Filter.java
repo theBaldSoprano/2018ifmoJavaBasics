@@ -1,5 +1,15 @@
 package com.study.itmo.gregory.lesson5.filterTask2;
 
-interface Filter {
-    boolean apply(Object s);
+interface Filter<T> {
+    boolean apply(T t);
 }
+
+/**
+ *
+ *
+ *
+ * чтобы подписчики - то есть интерфейс
+ * будет параметризован  чтобы не отправлять там тип
+ * гугл как получить параметр объекта и вытащить из сабскрипшна
+ * а в onEvent чтобы приходил именно параметризованный
+ */
