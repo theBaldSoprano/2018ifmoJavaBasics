@@ -1,6 +1,7 @@
 package com.study.itmo.gregory.lesson5.filterTask2;
 
 import java.util.Arrays;
+import java.util.Comparator;
 
 public class Solution {
     public static String[] filter(String[] list, Filter filter){

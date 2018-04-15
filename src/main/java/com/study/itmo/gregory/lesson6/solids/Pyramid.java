@@ -1,6 +1,6 @@
 package com.study.itmo.gregory.lesson6.solids;
 
-public class Pyramid implements IsShape {
+public class Pyramid {
 
     double height;
     double baseArea;
@@ -10,7 +10,7 @@ public class Pyramid implements IsShape {
         this.baseArea = baseArea;
     }
 
-    @Override
+    //@Override
     public double getVolume() {
         return (baseArea * height) / (1.0/3.0);
     }

@@ -12,8 +12,8 @@ public class Solution {
 
     public static void main(String[] args) throws IOException {
 
-        Box box = new Box(10);
-        System.out.println("init box volume is: " + box.getVolume());
+        //Box box = new Box(10);
+        //System.out.println("init box volume is: " + box.getVolume());
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
@@ -28,24 +28,22 @@ public class Solution {
                     shape = new Ball(ran.nextDouble());
                     break;
                 case "pyramid":
-                    shape = new Pyramid(ran.nextDouble(), ran.nextDouble());
+                    //shape = new Pyramid(ran.nextDouble(), ran.nextDouble());
                     break;
                 case "cylinder":
                     shape = new Cylinder(ran.nextDouble(), ran.nextDouble());
                     break;
-                    default:
-                        System.out.println("wrong name!");
+                default:
+                    System.out.println("wrong name!");
             }
-            if (shape != null){
-                if (box.canAdd(shape)){
-                    box.add(shape);
-                    System.out.println("volume left: " + box.getVolume());
-                }else System.out.println("i'm full");
-            }
+            if (shape != null) {
+                //if (box.canAdd(shape)){
+                // box.add(shape);
+                // System.out.println("volume left: " + box.getVolume());
+            } else System.out.println("i'm full");
         }
-
-
     }
 
 
 }
+
