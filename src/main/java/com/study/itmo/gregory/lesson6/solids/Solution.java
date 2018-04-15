@@ -1,6 +1,6 @@
 package com.study.itmo.gregory.lesson6.solids;
 
-import javafx.scene.shape.Circle;
+
 
 import java.util.ArrayList;
 import java.util.Arrays;
