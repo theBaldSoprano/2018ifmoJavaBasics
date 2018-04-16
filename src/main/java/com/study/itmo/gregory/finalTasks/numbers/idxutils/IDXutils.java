@@ -39,8 +39,5 @@ public class IDXutils {
                 System.out.println(format("pixel in byte is %d but in int is %d", bar, foo));
             }
         }
-
-
-
     }
 }
