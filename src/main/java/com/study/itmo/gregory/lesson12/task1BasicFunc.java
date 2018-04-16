@@ -11,7 +11,7 @@ public class task1BasicFunc {
     public static final String FILE = "C:\\Users\\GregorySSDNB\\Documents\\testFile.txt";
 
     public static void main(String[] args) throws IOException {
-        getInfo(FILE);
+        /*getInfo(FILE);
         try {
             write("foo", FILE);
             write("bar", FILE);
@@ -23,15 +23,22 @@ public class task1BasicFunc {
 
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
 
-        List<String> l = getFileNamesOnStringMatchFiles("C:\\Users\\GregorySSDNB\\Documents", new DirectoryStream.Filter<Path>() {
+        /*List<String> l = getFileNamesOnStringMatchFiles("C:\\Users\\GregorySSDNB\\Documents", new DirectoryStream.Filter<Path>() {
             @Override
             public boolean accept(Path entry) throws IOException {
                 return entry.getFileName().toString().contains(".iml");
             }
         });
-        System.out.println(l.toString());
+        System.out.println(l.toString());*/
+
+        List<String> names = getFileNamesOnStringMatch("C:\\Users\\GregorySSDNB\\Documents\\", entry -> entry.contains("My"));
+        System.out.println(String.format("found %d matches", names.size()));
+        for(String s : names) System.out.println(s);
+        List<String> names1 = getFileNamesOnStringMatchFiles("C:\\Users\\GregorySSDNB\\Documents\\", entry -> entry.getFileName().toString().contains("My"));
+        System.out.println(String.format("found %d matches", names1.size()));
+        for(String s : names1) System.out.println(s);
 
     }
 
@@ -101,23 +108,24 @@ public class task1BasicFunc {
     public static List<String> getFileNamesOnStringMatch(String dir, DirectoryStream.Filter<String> filter) throws IOException {
 
         List<String> result = new ArrayList<>();
-        File file = new File(dir);
-        if (!file.isDirectory()) {
+        File directory = new File(dir);
+        if (!directory.isDirectory()) {
             throw new IllegalArgumentException();
         }
 
-        File[] files = file.listFiles();
+        File[] files = directory.listFiles();
 
-        for (File f : files) {
-            if (filter.accept(file.getName())) {
-                result.add(f.getName());
+        if (files != null) {
+            for (File file : files) {
+                if (filter.accept(file.getName())) {
+                    if (file.isDirectory())result.add(String.format("[%s]", file.getName()));
+                    else result.add(file.getName());
+                }
+                if (file.isDirectory()) {
+                    List<String> nested = getFileNamesOnStringMatch(file.getAbsolutePath(), filter);
+                    result.addAll(nested);
+                }
             }
-            if (f.isDirectory()) {
-                List<String> nested = getFileNamesOnStringMatch(f.getName(), filter);
-                result.addAll(nested);
-            }
-
-
         }
         return result;
     }
@@ -129,16 +137,16 @@ public class task1BasicFunc {
         Path directory = Paths.get(dir);
         if (!Files.isDirectory(directory)) throw new IllegalArgumentException();
 
-        DirectoryStream<Path> directoryStream = Files.newDirectoryStream(directory);
+        DirectoryStream<Path> directoryStream = Files.newDirectoryStream(directory);//todo WHY throwing access denied exception??
         for (Path path : directoryStream){
             if (filter.accept(path)){
-                result.add(path.getFileName().toString());
+                if (Files.isDirectory(path)) String.format("[%s]", result.add(path.getFileName().toString()));
+                else result.add(path.getFileName().toString());
             }
             if (Files.isDirectory(path)){
-                result.addAll(getFileNamesOnStringMatchFiles(path.getFileName().toString(), filter));
+                result.addAll(getFileNamesOnStringMatchFiles(path.toAbsolutePath().toString(), filter));
             }
         }
-
         return result;
     }
 }
