@@ -42,13 +42,20 @@ public class IDXutils {
                 System.out.println(format("pixel in byte is %d but in int is %d", bar, foo));
             }
         }*/
-        ArrayList<Integer> foo = getLabels(TEST_LABELS);
+        /*ArrayList<Integer> foo = getLabels(TEST_LABELS);
         System.out.println(foo.size());
         System.out.println(foo);
-
-
         ArrayList<Integer> foo1 = getLabels(TRAINING_LABELS);
-        System.out.println(foo1.size());
+        System.out.println(foo1.size());*/
+        /*ArrayList<ArrayList<Integer>> images = getImages(TRAINING_IMAGES);
+        System.out.println(images.size());
+        for (ArrayList<Integer> arr : images) {
+            System.out.println("****************************SIZE IS " + arr.size());
+            for (Integer i : arr) {
+                System.out.println(i);
+            }
+        }*/
+
 
 
     }
@@ -62,20 +69,39 @@ public class IDXutils {
 
         int amountOfData = bb.getInt(); //todo waaat without var
         for (int i = 0; i < amountOfData; i++)
-            result.add((int)bb.get());
+            result.add((int) bb.get());
+        //bb.get(); //true ^^ test of the end
         return result;
     }
 
     public static ArrayList<ArrayList<Integer>> getImages(String filename) throws IOException {
+        ArrayList<ArrayList<Integer>> result = new ArrayList<>();
         ByteBuffer bb = ByteBuffer.wrap(IOUtils.toByteArray(new FileInputStream(new File(filename))));
         bb.order(ByteOrder.BIG_ENDIAN);
 
-        System.out.println(format("the magic number is %d", bb.getInt()));
-        int imagesAmount = bb.getInt();
-        int pixelPerBlock = bb.getInt();
-        for (int i = 0; i < imagesAmount; i++) {
+        if (bb.getInt() != IMAGES_MAGIC_NUMBER) throw new IllegalArgumentException();
 
+        int imagesTotalAmount = bb.getInt();
+        int pixelPerImage = bb.getInt() * bb.getInt();
+
+        for (int i = 0; i < imagesTotalAmount; i++) {
+            result.add(new ArrayList<>());
+            for (int j = 0; j < pixelPerImage; j++) {
+                int nextPixel = bb.get() & 0xff;
+                result.get(i).add(nextPixel);
+            }
         }
-        return null;
+        return result;
+    }
+
+    public static double getLengthBetween(ArrayList<Integer> v1, ArrayList<Integer> v2) {
+        ArrayList<Integer> diff = new ArrayList<>();
+        Double length = 0.0d;
+
+        for (int i = 0; i < v1.size(); i++)
+            diff.add(v1.get(i) - v2.get(i));
+        for(Integer i : diff)
+            length += Math.pow(i, 2);
+        return Math.sqrt(Math.abs(length));
     }
 }
