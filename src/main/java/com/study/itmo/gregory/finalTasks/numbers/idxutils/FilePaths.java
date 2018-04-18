@@ -9,5 +9,7 @@ public class FilePaths {
     public static final int LABELS_FILE_DATA_OFFSET = 8;
     public static final int IMAGES_FILE_DATA_OFFSET = 16;
 
+    public static final int LABELS_MAGIC_NUMBER = 2049;
+
 
 }
