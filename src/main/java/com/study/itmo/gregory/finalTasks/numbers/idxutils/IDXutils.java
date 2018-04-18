@@ -3,14 +3,13 @@ package com.study.itmo.gregory.finalTasks.numbers.idxutils;
 import org.apache.commons.io.IOUtils;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
-import static com.study.itmo.gregory.finalTasks.numbers.idxutils.FilePaths.TRAINING_IMAGES;
+import static com.study.itmo.gregory.finalTasks.numbers.idxutils.FilePaths.*;
 import static java.lang.String.format;
-
-import static com.study.itmo.gregory.finalTasks.numbers.idxutils.FilePaths.TRAINING_LABELS;
 
 public class IDXutils {
     /**
@@ -21,7 +20,7 @@ public class IDXutils {
      */
     public static void main(String[] args) throws IOException {
 
-        byte [] trainLabels = IOUtils.toByteArray(new FileInputStream(new File(TRAINING_IMAGES)));
+        /*byte [] trainLabels = IOUtils.toByteArray(new FileInputStream(new File(TRAINING_IMAGES)));
         System.out.println(format("train trainLabels file is %d bytes long", trainLabels.length));
 
         ByteBuffer bb = ByteBuffer.wrap(trainLabels);
@@ -38,6 +37,17 @@ public class IDXutils {
                 int foo = bar & 0xff;
                 System.out.println(format("pixel in byte is %d but in int is %d", bar, foo));
             }
-        }
+        }*/
+
+    }
+    public static int[] getLabels(String filename) throws IOException {
+        ByteBuffer bb = ByteBuffer.wrap(IOUtils.toByteArray(new FileInputStream(new File(filename))));
+        bb.order(ByteOrder.BIG_ENDIAN);
+
+        System.out.println(format("the magic number is %d", bb.getInt()));
+        int[] result = new int[bb.getInt()];
+        for (int i = LABELS_FILE_DATA_OFFSET; i < result.length; i++)
+            result[i] = bb.get() & 0xff;
+        return result;
     }
 }

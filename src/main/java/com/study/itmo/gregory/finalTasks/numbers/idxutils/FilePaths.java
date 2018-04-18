@@ -6,4 +6,8 @@ public class FilePaths {
     public static final String TEST_LABELS = "C:\\Users\\GregorySSDNB\\Documents\\testSetLabels\\t10k-labels.idx1-ubyte";
     public static final String TEST_IMAGES = "C:\\Users\\GregorySSDNB\\Documents\\testSetImages\\t10k-images.idx3-ubyte";
 
+    public static final int LABELS_FILE_DATA_OFFSET = 8;
+    public static final int IMAGES_FILE_DATA_OFFSET = 16;
+
+
 }

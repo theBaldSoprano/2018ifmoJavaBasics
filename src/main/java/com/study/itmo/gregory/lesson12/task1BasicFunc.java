@@ -36,9 +36,9 @@ public class task1BasicFunc {
         List<String> names = getFileNamesOnStringMatch("C:\\Users\\GregorySSDNB\\Documents\\", entry -> entry.contains("My"));
         System.out.println(String.format("found %d matches", names.size()));
         for(String s : names) System.out.println(s);
-        List<String> names1 = getFileNamesOnStringMatchFiles("C:\\Users\\GregorySSDNB\\Documents\\", entry -> entry.getFileName().toString().contains("My"));
+        /*List<String> names1 = getFileNamesOnStringMatchFiles("C:\\Users\\GregorySSDNB\\Documents\\", entry -> entry.getFileName().toString().contains("My"));
         System.out.println(String.format("found %d matches", names1.size()));
-        for(String s : names1) System.out.println(s);
+        for(String s : names1) System.out.println(s);*/
 
     }
 
