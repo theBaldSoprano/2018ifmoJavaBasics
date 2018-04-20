@@ -1,14 +1,9 @@
 package com.study.itmo.gregory.lesson7.eventhub;
 
-import com.study.itmo.gregory.lesson7.eventhub.Subscribers.Subscribable;
-import com.study.itmo.gregory.lesson7.eventhub.events.Event;
-import com.study.itmo.gregory.lesson7.eventhub.events.NewMail;
-
-import java.lang.reflect.ParameterizedType;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.HashSet;
-import java.util.Set;
 
 public class EventHub {
 
@@ -20,29 +15,26 @@ public class EventHub {
         return instance;
     }
 
-    HashSet<Subscribable<? extends Event>> subscribers = new HashSet<>();
+    HashSet subscribers = new HashSet();
+
+    //HashSet<Subscribable<? extends Event>> subscribers = new HashSet<>();
 
     //ArrayList<Subscribable<? extends Event>> s = new ArrayList<>();
 
 
-    public void subscribe(Subscribable<? extends Event> subscriber){
+    public void subscribe(Object subscriber){
         if (!subscribers.contains(subscriber))subscribers.add(subscriber);
     }
 
-    public <T extends Event> void push(T event){
-
-        for (Subscribable<? extends Event> sub : subscribers){
-
-            /**
-             * ПОТОМУ ЧТО проверку на равность объектов я проверяю кастомно
-             * ифом
-             * а компилятор видит, что если проверки нет
-             * то sub и event могут оказаться например ButtonClick а подписчик на NewMail
-             */
-            if ( ((ParameterizedType) event.getClass().getGenericSuperclass()).getActualTypeArguments()[0].getClass().equals(event.getClass())){
-                sub.onInternalEvent(event);
+    public void push(Object event) throws InvocationTargetException, IllegalAccessException {
+        for (Object sub : subscribers){
+            for(Method method : sub.getClass().getMethods()){
+                for (Annotation annotation : event.getClass().getDeclaredAnnotations()){
+                    if (method.isAnnotationPresent(annotation.annotationType())){
+                        method.invoke(sub);
+                    }
+                }
             }
-
         }
     }
 }

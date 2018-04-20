@@ -36,6 +36,7 @@ public class CollectionsTasks {
         Path path = Paths.get(filename);
         List<String> allLines = Files.readAllLines(path);
         StringBuffer stringBuffer = new StringBuffer();
+        //String.join используй??
         for (String s : allLines)stringBuffer.append(s);
 
         for (char c : stringBuffer.toString().toCharArray()){
