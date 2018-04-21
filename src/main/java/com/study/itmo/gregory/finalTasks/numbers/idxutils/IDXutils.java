@@ -18,15 +18,15 @@ public class IDXutils {
      * parser and utils for IDX files
      * containing handwritten digits images(MNIST)
      * taken from http://yann.lecun.com/exdb/mnist/
-     *
+     * <p>
      * todo оптимизировать
      * todo другим способом не соседями
      * todo сделать вычисляя интеграл
      * то есть ось икс - это количество пикселей
      * а значение пикселя это удаление от оси икс
-     *
+     * <p>
      * не сортировка а поиск минимума
-     *
+     * <p>
      * у бинарного дерева - двоичный логорифм сложности
      *
      * @param args
@@ -67,34 +67,46 @@ public class IDXutils {
             }
         }*/
         //upload and import all labels and images files
-        ArrayList<Integer> trainLabels = getLabels(TRAINING_LABELS);//60 000
-        ArrayList<ArrayList<Integer>> trainImages = getImages(TRAINING_IMAGES);//4 ляма
+        int[] trainLabels = getLabels(TRAINING_LABELS);//60 000
+        ArrayList<int[]> trainImages = getImages(TRAINING_IMAGES);//4 ляма
 
-        ArrayList<Integer> testLabels = getLabels(TEST_LABELS);
+        int[] testLabels = getLabels(TEST_LABELS);
         //ArrayList<ArrayList<Integer>> testImages = getImages(TRAINING_IMAGES);
-        ArrayList<ArrayList<Integer>> testImages = getImages(TEST_IMAGES);
+        ArrayList<int[]> testImages = getImages(TEST_IMAGES);
         int match = 0;
         int neighborsAmount = 27;
+
+        double middleBlock = 0;
+        double middleLength = 0;
 
         /*System.out.println("********************8888");
         System.out.println("here is first 20 and last 20 ");
         System.out.println("********************8888");*/
+        for (int i = 0; i < 500; i++) {
+            //for (int i = 0; i < testLabels.size(); i++) {
 
-        for (int i = 0; i < testLabels.size(); i++) {
-        //for (int i = 0; i < 110; i++) {
+            //System.out.println("********************************************************");
+            Date startTime = new Date();
+            //System.out.println("start is " + (startTime.getTime() - startTime.getTime()));
+
+            //for (int i = 0; i < 110; i++) {
             //массив чтобы хранить соседей 60 тыщ
             //массив хранящий Энный сет изображения который будем сравнивать
             //реальное число этой картинки
             //реально полученно число будет в конце переписано полученным
-            Neighbor[] neighbors = new Neighbor[trainLabels.size()];//60000 images for training
+            Neighbor[] neighbors = new Neighbor[trainLabels.length];//60000 images for training
             //System.out.println("neigbors array length is " + neighbors.length);
-            ArrayList<Integer> testImage = testImages.get(i);
-            int testLabel = testLabels.get(i);
+            int[] testImage = testImages.get(i);
+            int testLabel = testLabels[i];
             //System.out.println(String.format("waiting for %d", testLabel));
             int actualLabel = -1;
             //последовательно заполняем соседей
             //лэйблом и соотв дальностью от тестового образца
-            for (int j = 0; j < trainLabels.size(); j++) {
+
+            Date beforeLengthProcessing = new Date();
+            //System.out.println("timestamp before length processing is " + (beforeLengthProcessing.getTime() - startTime.getTime()));
+
+            for (int j = 0; j < trainLabels.length; j++) {
                 double length = getLengthBetween(testImage, trainImages.get(j));
                 /*if (length == 0.0){
                     System.out.println("******************************************************");
@@ -104,14 +116,30 @@ public class IDXutils {
                     System.out.println(trainImages.get(j));
                     System.out.println("******************************************************");
                 }*/
-                neighbors[j] = new Neighbor(trainLabels.get(j), length);
+                neighbors[j] = new Neighbor(trainLabels[j], length);
             }
+
+
+            Date afterLengthProcessing = new Date();
+            //System.out.println("timestamp after length processing is " + (afterLengthProcessing.getTime() - startTime.getTime()));
+            //System.out.println(String.format("length processing took %d milliseconds", afterLengthProcessing.getTime() - beforeLengthProcessing.getTime()));
+            middleLength = middleLength + (afterLengthProcessing.getTime() - beforeLengthProcessing.getTime());
+
             /*System.out.println("BEFORE sort*************************************");
             for (int j = 0; j < 200; j++) {
                 System.out.println(neighbors[j]);
             }*/
             //сортируем соседей от меньшей дистанции к большей
+
+            Date beforeSort = new Date();
+            //System.out.println("timestamp before sort is " + (beforeSort.getTime() - startTime.getTime()));
+
             Arrays.sort(neighbors);
+
+            Date afterSort = new Date();
+            //System.out.println("timestamp after sort is " + (afterSort.getTime() - startTime.getTime()));
+            //System.out.println(String.format("sort took %d milliseconds", afterSort.getTime() - beforeSort.getTime()));
+
             //System.out.println("AFTER sort*************************************");
             /*for (int j = 0; j < 200; j++) {
                 System.out.println(neighbors[j]);
@@ -149,11 +177,22 @@ public class IDXutils {
             if (actualLabel == testLabel) {
                 match++;
             }
-            System.out.print(String.format("\rprocessed %d of %d data blocks", i + 1, testLabels.size()));
-            System.out.print(String.format(" *** currently got %d matches", match));
-            System.out.print(String.format(" *** current error rate is %f percent", (100 -((double)match / (i + 1)) * 100)));
+            Date endTime = new Date();
+            middleBlock = middleBlock + (endTime.getTime() - startTime.getTime());
+            //System.out.println(String.format("all block took %d milliseconds", endTime.getTime() - startTime.getTime()));
+            //System.out.println("********************************************************");
 
+            System.out.print(String.format("\r%d of %d images done || error is %f percent",
+                    i + 1,
+                    testLabels.length,
+                    (100 - ((double) match / (i + 1)) * 100)));
         }
+        middleBlock = middleBlock / 500.0;
+        System.out.println();
+        System.out.println("middle time for block was: " + middleBlock);
+        middleLength = middleLength / 500.0;
+        System.out.println("middle time for length was: " + middleLength);
+
 
         /*Neighbor [] neighbors = new Neighbor[trainLabels.size()];
         ArrayList<Integer> testImage = testImages.get(444);
@@ -173,22 +212,23 @@ public class IDXutils {
         }*/
     }
 
-    public static ArrayList<Integer> getLabels(String filename) throws IOException {
-        ArrayList<Integer> result = new ArrayList<>();
+    public static int[] getLabels(String filename) throws IOException {
+        int[] result;
         ByteBuffer bb = ByteBuffer.wrap(IOUtils.toByteArray(new FileInputStream(new File(filename))));
         bb.order(ByteOrder.BIG_ENDIAN);
 
         if (bb.getInt() != LABELS_MAGIC_NUMBER) throw new IllegalArgumentException();
 
         int amountOfData = bb.getInt(); //todo waaat without var
+        result = new int[amountOfData];
         for (int i = 0; i < amountOfData; i++)
-            result.add((int) bb.get());
+            result[i] = (int) bb.get();
         //bb.get(); //true ^^ test of the end
         return result;
     }
 
-    public static ArrayList<ArrayList<Integer>> getImages(String filename) throws IOException {
-        ArrayList<ArrayList<Integer>> result = new ArrayList<>();
+    public static ArrayList<int[]> getImages(String filename) throws IOException {
+        ArrayList<int[]> result = new ArrayList<>();
         ByteBuffer bb = ByteBuffer.wrap(IOUtils.toByteArray(new FileInputStream(new File(filename))));
         bb.order(ByteOrder.BIG_ENDIAN);
 
@@ -198,25 +238,26 @@ public class IDXutils {
         int pixelPerImage = bb.getInt() * bb.getInt();
 
         for (int i = 0; i < imagesTotalAmount; i++) {
-            result.add(new ArrayList<>());
+            result.add(new int[pixelPerImage]);
             for (int j = 0; j < pixelPerImage; j++) {
                 int nextPixel = bb.get() & 0xff;
-                result.get(i).add(nextPixel);
+                result.get(i)[j] = nextPixel;
             }
         }
         return result;
     }
 
-    public static double getLengthBetween(ArrayList<Integer> v1, ArrayList<Integer> v2) {
-        ArrayList<Integer> diff = new ArrayList<>();
+    public static double getLengthBetween(int[] v1, int[] v2) {
+
         Double length = 0.0d;
 
-        for (int i = 0; i < v1.size(); i++)
-            diff.add(v1.get(i) - v2.get(i));
-        for (Integer i : diff)
-            length += Math.pow(i, 2);
-        return Math.sqrt(Math.abs(length));
+        for (int i = 0; i < v1.length; i++)
+            length += (v1[i] - v2[i]) * (v1[i] - v2[i]);
+
+        return Math.sqrt(length);
     }
+
+
 }
 
 class Neighbor implements Comparable<Neighbor> {
