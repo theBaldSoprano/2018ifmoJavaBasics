@@ -31,9 +31,10 @@ public class IDXutils {
      *
      * @param args
      */
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
 
-        System.out.println("process started at " + new Date().toString());
+        Date init = new Date();
+        System.out.println("process started at " + init.toString());
 
         /*byte [] trainLabels = IOUtils.toByteArray(new FileInputStream(new File(TRAINING_IMAGES)));
         System.out.println(format("train trainLabels file is %d bytes long", trainLabels.length));
@@ -106,19 +107,26 @@ public class IDXutils {
             Date beforeLengthProcessing = new Date();
             //System.out.println("timestamp before length processing is " + (beforeLengthProcessing.getTime() - startTime.getTime()));
 
-            for (int j = 0; j < trainLabels.length; j++) {
+            /*for (int j = 0; j < trainLabels.length; j++) {
                 double length = getLengthBetween(testImage, trainImages.get(j));
-                /*if (length == 0.0){
+                *//*if (length == 0.0){
                     System.out.println("******************************************************");
                     System.out.println(String.format("its %d", testLabel));
                     System.out.println(testImage);
                     System.out.println(String.format("and this is supposed to be %d", trainLabels.get(j)));
                     System.out.println(trainImages.get(j));
                     System.out.println("******************************************************");
-                }*/
+                }*//*
                 neighbors[j] = new Neighbor(trainLabels[j], length);
-            }
+            }*/
 
+            UtilThread first = new UtilThread(0, 30000, testImage, trainImages, trainLabels, neighbors);
+            UtilThread second = new UtilThread(30000, 60000, testImage, trainImages, trainLabels, neighbors);
+            first.start();
+            second.start();
+
+            first.join();
+            second.join();
 
             Date afterLengthProcessing = new Date();
             //System.out.println("timestamp after length processing is " + (afterLengthProcessing.getTime() - startTime.getTime()));
@@ -210,6 +218,11 @@ public class IDXutils {
             System.out.println("  difference is " + neighbors[i].getLengthBetween());
             System.out.println("-------------------------");
         }*/
+        Date initEnd = new Date();
+        System.out.println("process ended at " + initEnd.toString());
+        System.out.println(String.format(
+                "process took %d minutes", new Date(initEnd.getTime() - init.getTime()).getMinutes())
+        );
     }
 
     public static int[] getLabels(String filename) throws IOException {
@@ -250,6 +263,12 @@ public class IDXutils {
     public static double getLengthBetween(int[] v1, int[] v2) {
 
         Double length = 0.0d;
+
+        /*for (int i = 0; i < v1.length / 2; i++)
+            //gives 1/5 less time for block
+            //but 2x bigger error rate
+            length += ((v1[i] - v2[i]) * (v1[i] - v2[i])) +
+                        ((v1[i + 1] - v2[i + 1]) * (v1[i + 1] - v2[i + 1]));*/
 
         for (int i = 0; i < v1.length; i++)
             length += (v1[i] - v2[i]) * (v1[i] - v2[i]);
