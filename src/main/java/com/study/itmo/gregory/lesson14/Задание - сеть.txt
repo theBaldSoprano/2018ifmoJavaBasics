@@ -1,0 +1,2 @@
+﻿1. Создать экземпляр URL указывающий на любимый сайт и получить URLConnection. Выведете на консоль ContentLength, ContentType, список всех HeaderFields.
+2. См. Файл про задачу OSM.

@@ -31,6 +31,26 @@ public class IDXutils {
      *
      * @param args
      */
+    //upload and import all labels and images files
+    public static int[] trainLabels;//60 000
+    public static ArrayList<int[]> trainImages;//4 ляма
+    public static int[] testLabels;
+    public static ArrayList<int[]> testImages;
+
+    static {
+        try {
+            trainLabels = getLabels(TRAINING_LABELS);
+            trainImages = getImages(TRAINING_IMAGES);
+            testLabels = getLabels(TEST_LABELS);
+            testImages = getImages(TEST_IMAGES);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
     public static void main(String[] args) throws IOException, InterruptedException {
 
         Date init = new Date();
@@ -67,15 +87,9 @@ public class IDXutils {
                 System.out.println(i);
             }
         }*/
-        //upload and import all labels and images files
-        int[] trainLabels = getLabels(TRAINING_LABELS);//60 000
-        ArrayList<int[]> trainImages = getImages(TRAINING_IMAGES);//4 ляма
 
-        int[] testLabels = getLabels(TEST_LABELS);
-        //ArrayList<ArrayList<Integer>> testImages = getImages(TRAINING_IMAGES);
-        ArrayList<int[]> testImages = getImages(TEST_IMAGES);
         int match = 0;
-        int neighborsAmount = 27;
+        int neighborsAmount = 5;//on 27 == 5; on 5 == 3.2%
 
         double middleBlock = 0;
         double middleLength = 0;
@@ -120,13 +134,19 @@ public class IDXutils {
                 neighbors[j] = new Neighbor(trainLabels[j], length);
             }*/
 
-            UtilThread first = new UtilThread(0, 30000, testImage, trainImages, trainLabels, neighbors);
-            UtilThread second = new UtilThread(30000, 60000, testImage, trainImages, trainLabels, neighbors);
+            UtilThreadProcessLength first = new UtilThreadProcessLength(0, 15000, testImage, trainImages, trainLabels, neighbors);
+            UtilThreadProcessLength second = new UtilThreadProcessLength(15000, 30000, testImage, trainImages, trainLabels, neighbors);
+            UtilThreadProcessLength third = new UtilThreadProcessLength(30000, 45000, testImage, trainImages, trainLabels, neighbors);
+            UtilThreadProcessLength fourth = new UtilThreadProcessLength(45000, 60000, testImage, trainImages, trainLabels, neighbors);
             first.start();
             second.start();
+            third.start();
+            fourth.start();
 
             first.join();
             second.join();
+            third.join();
+            fourth.join();
 
             Date afterLengthProcessing = new Date();
             //System.out.println("timestamp after length processing is " + (afterLengthProcessing.getTime() - startTime.getTime()));
@@ -273,7 +293,8 @@ public class IDXutils {
         for (int i = 0; i < v1.length; i++)
             length += (v1[i] - v2[i]) * (v1[i] - v2[i]);
 
-        return Math.sqrt(length);
+        //return Math.sqrt(length);
+        return Double.longBitsToDouble( ( ( Double.doubleToLongBits( length )-(1l<<52) )>>1 ) + ( 1l<<61 ) );
     }
 
 

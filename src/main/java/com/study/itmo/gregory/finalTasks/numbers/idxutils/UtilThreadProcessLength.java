@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 import static com.study.itmo.gregory.finalTasks.numbers.idxutils.IDXutils.getLengthBetween;
 
-public class UtilThread extends Thread{
+public class UtilThreadProcessLength extends Thread {
+
+    private static final Object monitor = new Object();
 
     private int start;
     private int end;
@@ -13,7 +15,7 @@ public class UtilThread extends Thread{
     private int[] trainLabels;
     private Neighbor[] neighbors;
 
-    public UtilThread(int start, int end, int[] testImage, ArrayList<int[]> trainImages, int[] trainLabels, Neighbor[] neighbors) {
+    public UtilThreadProcessLength(int start, int end, int[] testImage, ArrayList<int[]> trainImages, int[] trainLabels, Neighbor[] neighbors) {
         this.start = start;
         this.end = end;
         this.testImage = testImage;
@@ -24,9 +26,11 @@ public class UtilThread extends Thread{
 
     @Override
     public void run() {
-        for (int i = start; i < end; i++) {
-            double length = getLengthBetween(testImage, trainImages.get(i));
-            neighbors[i] = new Neighbor(trainLabels[i], length);
+        synchronized (monitor) {
+            for (int i = start; i < end; i++) {
+                double length = getLengthBetween(testImage, trainImages.get(i));
+                neighbors[i] = new Neighbor(trainLabels[i], length);
+            }
         }
     }
 }
