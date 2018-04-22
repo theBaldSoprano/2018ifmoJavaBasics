@@ -33,8 +33,9 @@ class MyThread extends Thread {
 
                // if (last == this) {
                     try {
-                        monitor.notify();
+
                         System.out.println(message);
+                        monitor.notify();
                         monitor.wait();
                     } catch (InterruptedException e) {
                         e.printStackTrace();

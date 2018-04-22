@@ -47,6 +47,11 @@ public class IDXutils {
             e.printStackTrace();
         }
     }
+    public static int match = 0;
+    public static int neighborsAmount = 5;//on 27 == 5; on 5 == 3.2%
+
+    public static double middleBlock = 0;
+    public static double middleLength = 0;
 
 
 
@@ -88,11 +93,7 @@ public class IDXutils {
             }
         }*/
 
-        int match = 0;
-        int neighborsAmount = 5;//on 27 == 5; on 5 == 3.2%
 
-        double middleBlock = 0;
-        double middleLength = 0;
 
         /*System.out.println("********************8888");
         System.out.println("here is first 20 and last 20 ");
