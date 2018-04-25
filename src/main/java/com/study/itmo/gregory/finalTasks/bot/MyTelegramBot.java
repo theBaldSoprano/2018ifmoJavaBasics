@@ -10,18 +10,18 @@ import java.util.List;
 
 public class MyTelegramBot extends TelegramLongPollingBot {
 
-    public MyTelegramBot(DefaultBotOptions botOptions){
-        super(botOptions);
+    public MyTelegramBot( ){
+
     }
 
     @Override
     public String getBotToken() {
-        return "580617227:AAFWgCitsLUEpzeC6IDCYP4fkXqX50Jqf5U";
+        return "550430219:AAEgJWEAX6DpTZLfY6duUlwYtH7mfW7zHdc";
     }
 
     @Override
     public String getBotUsername() {
-        return "theBaldSopranoBot";
+        return "imnewhereBot";
     }
 
     @Override

@@ -24,6 +24,7 @@ public class UtilThreadProcessBlock extends Thread {
     public void run() {
 
         for (int i = start; i < end; i++) {
+
             Date startTime = new Date();
             Neighbor[] neighbors = new Neighbor[trainLabels.length];//60000 images for training
             int[] testImage = testImages.get(i);

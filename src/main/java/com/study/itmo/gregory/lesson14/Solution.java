@@ -29,9 +29,12 @@ public class Solution {
      */
     public static void main(String[] args) throws IOException {
 
-        URL urla = new URL("https://www.wikipedia.org/");
+        URL urla = new URL("foo");
+
 
         URLConnection urlConnection = urla.openConnection();
+
+        urlConnection.getContentType();
 
         if (!(urlConnection instanceof HttpURLConnection)) throw new IllegalArgumentException();
 

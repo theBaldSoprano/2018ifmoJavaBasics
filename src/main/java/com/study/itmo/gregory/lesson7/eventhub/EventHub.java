@@ -31,7 +31,9 @@ public class EventHub {
             for(Method method : sub.getClass().getMethods()){
                 for (Annotation annotation : event.getClass().getDeclaredAnnotations()){
                     if (method.isAnnotationPresent(annotation.annotationType())){
-                        method.invoke(sub);
+                        if(method.getParameterTypes()[0].getClass().getTypeName() == event.getClass().getClass().getTypeName()) {
+                            method.invoke(sub, event);
+                        }
                     }
                 }
             }

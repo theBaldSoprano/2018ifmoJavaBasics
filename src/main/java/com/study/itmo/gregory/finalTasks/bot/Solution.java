@@ -18,8 +18,8 @@ import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 
 public class Solution {
 
-    private static String PROXY_HOST = "esesd.tgproxy.me" /* proxy host */;
-    private static Integer PROXY_PORT = 1080;/* proxy port */;
+    private static String PROXY_HOST = "gyadd.tgproxy.me" /* proxy host */;
+    private static Integer PROXY_PORT = 443;/* proxy port */;
     private static String PROXY_USER = "telegram" /* proxy user */;
     private static String PROXY_PASSWORD = "telegram" /* proxy password */;
 
@@ -29,7 +29,7 @@ public class Solution {
         // Create the TelegramBotsApi object to register your bots
         TelegramBotsApi botsApi = new TelegramBotsApi();
 
-        // Set up Http proxy
+        /*// Set up Http proxy
         DefaultBotOptions botOptions = ApiContext.getInstance(DefaultBotOptions.class);
 
         CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
@@ -43,10 +43,10 @@ public class Solution {
 
         botOptions.setRequestConfig(requestConfig);
         botOptions.setCredentialsProvider(credentialsProvider);
-        botOptions.setHttpProxy(httpHost);
+        botOptions.setHttpProxy(httpHost);*/
 
         try {
-            botsApi.registerBot((TelegramLongPollingBot) new MyTelegramBot(botOptions));
+            botsApi.registerBot( new MyTelegramBot());
         } catch (TelegramApiRequestException e) {
             e.printStackTrace();
         }

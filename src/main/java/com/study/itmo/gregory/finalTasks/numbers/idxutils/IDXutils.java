@@ -29,6 +29,8 @@ public class IDXutils {
      * <p>
      * у бинарного дерева - двоичный логорифм сложности
      *
+     * todo оптимизировать: если 5 соседей - создавать только 5 лучших объектов
+     *
      * @param args
      */
     //upload and import all labels and images files

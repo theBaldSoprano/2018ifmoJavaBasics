@@ -3,7 +3,6 @@ package com.study.itmo.gregory.lesson7.eventhub.events;
 import com.study.itmo.gregory.lesson7.OnNewMail;
 
 
-@OnNewMail
 public class NewMail{
     private int amount;
     public NewMail(int amount) {
