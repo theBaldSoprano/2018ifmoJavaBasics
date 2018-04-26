@@ -1,6 +1,8 @@
 package com.study.itmo.gregory.finalTasks.numbers.idxutils;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.study.itmo.gregory.finalTasks.numbers.idxutils.IDXutils.*;
 
@@ -27,7 +29,12 @@ public class UtilThreadProcessBlock extends Thread {
             int testLabel = testLabels[i];
             int actualLabel = -1;
 
-            UtilThreadProcessLength first = new UtilThreadProcessLength(0, 30000, testImage, trainImages, trainLabels, neighbors);
+            for (int j = 0; j < 60000; j++) {
+                double length = getLengthBetween(testImage, trainImages.get(j));
+                neighbors[j] = new Neighbor(trainLabels[j], length);
+            }
+
+            /*UtilThreadProcessLength first = new UtilThreadProcessLength(0, 30000, testImage, trainImages, trainLabels, neighbors);
             UtilThreadProcessLength second = new UtilThreadProcessLength(30000, 60000, testImage, trainImages, trainLabels, neighbors);
             first.start();
             second.start();
@@ -37,7 +44,7 @@ public class UtilThreadProcessBlock extends Thread {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
+*/
             Arrays.sort(neighbors);
 
             //get array with N best matches

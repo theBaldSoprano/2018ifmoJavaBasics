@@ -8,10 +8,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
 
 import static com.study.itmo.gregory.finalTasks.numbers.idxutils.FilePaths.*;
-import static java.lang.String.format;
 
 public class IDXutils {
     /**
@@ -28,7 +28,7 @@ public class IDXutils {
      * не сортировка а поиск минимума
      * <p>
      * у бинарного дерева - двоичный логорифм сложности
-     *
+     * <p>
      * todo оптимизировать: если 5 соседей - создавать только 5 лучших объектов
      *
      * @param args
@@ -49,35 +49,53 @@ public class IDXutils {
             e.printStackTrace();
         }
     }
+
     public static int match = 0;
     public static int total = 0;
 
-    public static int neighborsAmount = 5;//on 27 == 5; on 5 == 3.2%
+    public static int neighborsAmount = 10;//on 27 == 5; on 5 == 3.2%; on 10 ==
 
     //public static double middleBlock = 0;
     //public static double middleLength = 0;
 
 
-
-
     public static void main(String[] args) throws IOException, InterruptedException {
-
         Date init = new Date();
         System.out.println("process started at " + init.toString());
 
+        UtilThreadProcessBlock processBlock1 = new UtilThreadProcessBlock(0, 2500);
+        UtilThreadProcessBlock processBlock2 = new UtilThreadProcessBlock(2500, 5000);
+        UtilThreadProcessBlock processBlock3 = new UtilThreadProcessBlock(5000, 7500);
+        UtilThreadProcessBlock processBlock4 = new UtilThreadProcessBlock(7500, 10000);
 
-        UtilThreadProcessBlock processBlock1 = new UtilThreadProcessBlock(0, 250);
-        UtilThreadProcessBlock processBlock2 = new UtilThreadProcessBlock(250, 500);
         processBlock1.start();
         processBlock2.start();
+        processBlock3.start();
+        processBlock4.start();
+
         processBlock1.join();
         processBlock2.join();
+        processBlock3.join();
+        processBlock4.join();
 
         Date initEnd = new Date();
+        System.out.println();
         System.out.println("process ended at " + initEnd.toString());
+        Date all = new Date(initEnd.getTime() - init.getTime());
         System.out.println(String.format(
-                "process took %d minutes", new Date(initEnd.getTime() - init.getTime()).getMinutes())
+                "process took %d minutes %d seconds", all.getMinutes(), all.getSeconds())
         );
+        System.out.println("total is " + total);
+        System.out.println("and matches is " + match);
+
+        Double matchd = Double.valueOf(match);
+        Double totald = Double.valueOf(total);
+        double error = matchd / totald;
+        error = error * 100.0;
+        error = 100.0 - error;
+
+        System.out.println(String.format("so error rate is %f", error));
+        System.out.println(String.format("with %d neighbors", neighborsAmount));
     }
 
     public static int[] getLabels(String filename) throws IOException {
@@ -129,7 +147,7 @@ public class IDXutils {
             length += (v1[i] - v2[i]) * (v1[i] - v2[i]);
 
         //return Math.sqrt(length);
-        return Double.longBitsToDouble( ( ( Double.doubleToLongBits( length )-(1l<<52) )>>1 ) + ( 1l<<61 ) );
+        return Double.longBitsToDouble(((Double.doubleToLongBits(length) - (1l << 52)) >> 1) + (1l << 61));
     }
 
 

@@ -27,9 +27,10 @@ public class MyTelegramBot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()){
+            //String txt = String.format("fuck you, %s", update.getMessage().getContact().getFirstName());
             SendMessage message = new SendMessage()
                              .setChatId(update.getMessage().getChatId())
-                            .setText("fuck you, Gregory");
+                            .setText("fuck you");
             try {
                 sendMessage(message);
             } catch (TelegramApiException e) {
