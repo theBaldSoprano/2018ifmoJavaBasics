@@ -50,10 +50,12 @@ public class IDXutils {
         }
     }
     public static int match = 0;
+    public static int total = 0;
+
     public static int neighborsAmount = 5;//on 27 == 5; on 5 == 3.2%
 
-    public static double middleBlock = 0;
-    public static double middleLength = 0;
+    //public static double middleBlock = 0;
+    //public static double middleLength = 0;
 
 
 
@@ -63,184 +65,14 @@ public class IDXutils {
         Date init = new Date();
         System.out.println("process started at " + init.toString());
 
-        /*byte [] trainLabels = IOUtils.toByteArray(new FileInputStream(new File(TRAINING_IMAGES)));
-        System.out.println(format("train trainLabels file is %d bytes long", trainLabels.length));
 
-        ByteBuffer bb = ByteBuffer.wrap(trainLabels);
-        bb.order(ByteOrder.BIG_ENDIAN);
+        UtilThreadProcessBlock processBlock1 = new UtilThreadProcessBlock(0, 250);
+        UtilThreadProcessBlock processBlock2 = new UtilThreadProcessBlock(250, 500);
+        processBlock1.start();
+        processBlock2.start();
+        processBlock1.join();
+        processBlock2.join();
 
-        System.out.println(format("the magic number is %d", bb.getInt()));
-        System.out.println(format("total number of labels is %d", bb.getInt()));
-        System.out.println(format("number of rows is %d", bb.getInt()));
-        System.out.println(format("number col is %d", bb.getInt()));
-
-        for (int i = 0; i < 1000; i++) {
-            byte bar = bb.get();
-            if (bar != 0) {
-                int foo = bar & 0xff;
-                System.out.println(format("pixel in byte is %d but in int is %d", bar, foo));
-            }
-        }*/
-        /*ArrayList<Integer> foo = getLabels(TEST_LABELS);
-        System.out.println(foo.size());
-        System.out.println(foo);
-        ArrayList<Integer> foo1 = getLabels(TRAINING_LABELS);
-        System.out.println(foo1.size());*/
-        /*ArrayList<ArrayList<Integer>> images = getImages(TRAINING_IMAGES);
-        System.out.println(images.size());
-        for (ArrayList<Integer> arr : images) {
-            System.out.println("****************************SIZE IS " + arr.size());
-            for (Integer i : arr) {
-                System.out.println(i);
-            }
-        }*/
-
-
-
-        /*System.out.println("********************8888");
-        System.out.println("here is first 20 and last 20 ");
-        System.out.println("********************8888");*/
-        for (int i = 0; i < 500; i++) {
-            //for (int i = 0; i < testLabels.size(); i++) {
-
-            //System.out.println("********************************************************");
-            Date startTime = new Date();
-            //System.out.println("start is " + (startTime.getTime() - startTime.getTime()));
-
-            //for (int i = 0; i < 110; i++) {
-            //массив чтобы хранить соседей 60 тыщ
-            //массив хранящий Энный сет изображения который будем сравнивать
-            //реальное число этой картинки
-            //реально полученно число будет в конце переписано полученным
-            Neighbor[] neighbors = new Neighbor[trainLabels.length];//60000 images for training
-            //System.out.println("neigbors array length is " + neighbors.length);
-            int[] testImage = testImages.get(i);
-            int testLabel = testLabels[i];
-            //System.out.println(String.format("waiting for %d", testLabel));
-            int actualLabel = -1;
-            //последовательно заполняем соседей
-            //лэйблом и соотв дальностью от тестового образца
-
-            Date beforeLengthProcessing = new Date();
-            //System.out.println("timestamp before length processing is " + (beforeLengthProcessing.getTime() - startTime.getTime()));
-
-            /*for (int j = 0; j < trainLabels.length; j++) {
-                double length = getLengthBetween(testImage, trainImages.get(j));
-                *//*if (length == 0.0){
-                    System.out.println("******************************************************");
-                    System.out.println(String.format("its %d", testLabel));
-                    System.out.println(testImage);
-                    System.out.println(String.format("and this is supposed to be %d", trainLabels.get(j)));
-                    System.out.println(trainImages.get(j));
-                    System.out.println("******************************************************");
-                }*//*
-                neighbors[j] = new Neighbor(trainLabels[j], length);
-            }*/
-
-            UtilThreadProcessLength first = new UtilThreadProcessLength(0, 15000, testImage, trainImages, trainLabels, neighbors);
-            UtilThreadProcessLength second = new UtilThreadProcessLength(15000, 30000, testImage, trainImages, trainLabels, neighbors);
-            UtilThreadProcessLength third = new UtilThreadProcessLength(30000, 45000, testImage, trainImages, trainLabels, neighbors);
-            UtilThreadProcessLength fourth = new UtilThreadProcessLength(45000, 60000, testImage, trainImages, trainLabels, neighbors);
-            first.start();
-            second.start();
-            third.start();
-            fourth.start();
-
-            first.join();
-            second.join();
-            third.join();
-            fourth.join();
-
-            Date afterLengthProcessing = new Date();
-            //System.out.println("timestamp after length processing is " + (afterLengthProcessing.getTime() - startTime.getTime()));
-            //System.out.println(String.format("length processing took %d milliseconds", afterLengthProcessing.getTime() - beforeLengthProcessing.getTime()));
-            middleLength = middleLength + (afterLengthProcessing.getTime() - beforeLengthProcessing.getTime());
-
-            /*System.out.println("BEFORE sort*************************************");
-            for (int j = 0; j < 200; j++) {
-                System.out.println(neighbors[j]);
-            }*/
-            //сортируем соседей от меньшей дистанции к большей
-
-            Date beforeSort = new Date();
-            //System.out.println("timestamp before sort is " + (beforeSort.getTime() - startTime.getTime()));
-
-            Arrays.sort(neighbors);
-
-            Date afterSort = new Date();
-            //System.out.println("timestamp after sort is " + (afterSort.getTime() - startTime.getTime()));
-            //System.out.println(String.format("sort took %d milliseconds", afterSort.getTime() - beforeSort.getTime()));
-
-            //System.out.println("AFTER sort*************************************");
-            /*for (int j = 0; j < 200; j++) {
-                System.out.println(neighbors[j]);
-            }*/
-            //get array with N best matches
-            Neighbor[] bestMatch = new Neighbor[neighborsAmount];
-            for (int j = 0; j < neighborsAmount; j++) {
-                bestMatch[j] = neighbors[j];
-            }
-            //засунуть в мапу лэйблы и количества их попаданий
-            HashMap<Integer, Integer> tmp = new HashMap<>();
-            for (Neighbor foo : bestMatch) {
-                int key = foo.getActualValue();
-                if (!tmp.containsKey(key)) {
-                    tmp.put(key, 1);
-                } else {
-                    int resultValue = tmp.get(key) + 1;
-                    tmp.put(key, resultValue);
-                }
-            }
-            //найти самый упоминаемый лэйбл
-            int mostFrequentMatch = 1;
-            for (Map.Entry<Integer, Integer> pair : tmp.entrySet()) {
-                if (pair.getValue() > mostFrequentMatch) {
-                    mostFrequentMatch = pair.getValue();
-                }
-            }
-            //вытащить его
-            for (Map.Entry<Integer, Integer> pair : tmp.entrySet()) {
-                if (pair.getValue() == mostFrequentMatch) {
-                    actualLabel = pair.getKey();
-                }
-            }
-            //ну и сравнить полученный с реальным тестовым
-            if (actualLabel == testLabel) {
-                match++;
-            }
-            Date endTime = new Date();
-            middleBlock = middleBlock + (endTime.getTime() - startTime.getTime());
-            //System.out.println(String.format("all block took %d milliseconds", endTime.getTime() - startTime.getTime()));
-            //System.out.println("********************************************************");
-
-            System.out.print(String.format("\r%d of %d images done || error is %f percent",
-                    i + 1,
-                    testLabels.length,
-                    (100 - ((double) match / (i + 1)) * 100)));
-        }
-        middleBlock = middleBlock / 500.0;
-        System.out.println();
-        System.out.println("middle time for block was: " + middleBlock);
-        middleLength = middleLength / 500.0;
-        System.out.println("middle time for length was: " + middleLength);
-
-
-        /*Neighbor [] neighbors = new Neighbor[trainLabels.size()];
-        ArrayList<Integer> testImage = testImages.get(444);
-        int testLabel = testLabels.get(444);
-        for (int i = 0; i < trainLabels.size(); i++) {
-            double length = getLengthBetween(testImage, trainImages.get(i));
-            neighbors[i] = new Neighbor(trainLabels.get(i), length);
-        }
-        System.out.println("ACTUAL VALUE IS: " + testLabel);
-        Arrays.sort(neighbors);
-        System.out.println("THESE ARE FIVE CLOSEST NEIGHBORS");
-        System.out.println("-------------------------");
-        for (int i = 0; i < 5; i++) {
-            System.out.print("value is " + neighbors[i].actualValue);
-            System.out.println("  difference is " + neighbors[i].getLengthBetween());
-            System.out.println("-------------------------");
-        }*/
         Date initEnd = new Date();
         System.out.println("process ended at " + initEnd.toString());
         System.out.println(String.format(
