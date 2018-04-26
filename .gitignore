@@ -26,3 +26,6 @@ hs_err_pid*
 #idea files
 .idea/*
 *.iml
+
+#cred files
+src/main/java/com/study/itmo/gregory/finalTasks/bot/Creditals.java

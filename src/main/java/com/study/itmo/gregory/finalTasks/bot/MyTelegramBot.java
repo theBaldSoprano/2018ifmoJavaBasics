@@ -2,11 +2,11 @@ package com.study.itmo.gregory.finalTasks.bot;
 
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.Update;
-import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
-import java.util.List;
+import static com.study.itmo.gregory.finalTasks.bot.Creditals.TOKEN;
+import static com.study.itmo.gregory.finalTasks.bot.Creditals.USERNAME;
 
 public class MyTelegramBot extends TelegramLongPollingBot {
 
@@ -16,12 +16,12 @@ public class MyTelegramBot extends TelegramLongPollingBot {
 
     @Override
     public String getBotToken() {
-        return "550430219:AAEgJWEAX6DpTZLfY6duUlwYtH7mfW7zHdc";
+        return TOKEN;
     }
 
     @Override
     public String getBotUsername() {
-        return "imnewhereBot";
+        return USERNAME;
     }
 
     @Override
@@ -29,7 +29,7 @@ public class MyTelegramBot extends TelegramLongPollingBot {
         if (update.hasMessage() && update.getMessage().hasText()){
             SendMessage message = new SendMessage()
                              .setChatId(update.getMessage().getChatId())
-                            .setText(update.getMessage().getText());
+                            .setText("fuck you, Gregory");
             try {
                 sendMessage(message);
             } catch (TelegramApiException e) {
