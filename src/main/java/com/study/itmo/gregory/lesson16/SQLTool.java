@@ -59,6 +59,21 @@ public class SQLTool {
         return result;
     }
 
+    /**
+     *
+     * @param aClass is a type you want to be returned
+     * @param entity you need to supply an existing object to search by it
+     * @param <T> both <T> and <A> type's fields, that correspond with
+     *           database fields must be properly named and annotated with:
+     *           @IsField anno and @IsId if the field is ID
+     * @param <A>
+     * @return an ArrayList of <T> objects
+     * @throws SQLException
+     * @throws IllegalAccessException
+     * @throws NoSuchMethodException
+     * @throws InvocationTargetException
+     * @throws InstantiationException
+     */
     public <T, A> ArrayList<T> getThatByThis(Class<T> aClass, A entity) throws SQLException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, InstantiationException {
         ArrayList<T> result = new ArrayList<>();
         //GET TRACK BY ALBUM
@@ -90,12 +105,7 @@ public class SQLTool {
                             field.setAccessible(true);
                             entiryId = field.getInt(entity);
                         }
-                        //todo валидация и копирование по аннотации isID
                     }
-                    /*if (field.getName().toLowerCase().equals("albumid")){
-                        field.setAccessible(true);
-                        entiryId = field.getInt(entity);
-                    }*/
                 }
                 PreparedStatement stmt;
                 String sql = String.format("SELECT * FROM %s WHERE %s = %d",
