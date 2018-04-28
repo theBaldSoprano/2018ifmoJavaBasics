@@ -10,6 +10,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Objects;
 
 import static com.study.itmo.gregory.finalTasks.numbers.idxutils.FilePaths.*;
 
@@ -53,7 +54,7 @@ public class IDXutils {
     public static int match = 0;
     public static int total = 0;
 
-    public static int neighborsAmount = 10;//on 27 == 5; on 5 == 3.2%; on 10 ==
+    public static int neighborsAmount = 5;//on 27 == 5; on 5 == 3.2%; on 10 == 4%
 
     //public static double middleBlock = 0;
     //public static double middleLength = 0;
@@ -63,10 +64,14 @@ public class IDXutils {
         Date init = new Date();
         System.out.println("process started at " + init.toString());
 
-        UtilThreadProcessBlock processBlock1 = new UtilThreadProcessBlock(0, 2500);
-        UtilThreadProcessBlock processBlock2 = new UtilThreadProcessBlock(2500, 5000);
-        UtilThreadProcessBlock processBlock3 = new UtilThreadProcessBlock(5000, 7500);
-        UtilThreadProcessBlock processBlock4 = new UtilThreadProcessBlock(7500, 10000);
+       // UtilThreadProcessBlockAllNeighbors processBlock1 = new UtilThreadProcessBlockAllNeighbors(0, 250);
+       // UtilThreadProcessBlockAllNeighbors processBlock2 = new UtilThreadProcessBlockAllNeighbors(250, 500);
+        //UtilThreadProcessBlockAllNeighbors processBlock3 = new UtilThreadProcessBlockAllNeighbors(5000, 7500);
+        //UtilThreadProcessBlockAllNeighbors processBlock4 = new UtilThreadProcessBlockAllNeighbors(7500, 10000);
+        UtilThreadProcessBlockNeededNeighbors processBlock1 = new UtilThreadProcessBlockNeededNeighbors(0, 125);
+        UtilThreadProcessBlockNeededNeighbors processBlock2 = new UtilThreadProcessBlockNeededNeighbors(125, 250);
+        UtilThreadProcessBlockNeededNeighbors processBlock3 = new UtilThreadProcessBlockNeededNeighbors(250, 375);
+        UtilThreadProcessBlockNeededNeighbors processBlock4 = new UtilThreadProcessBlockNeededNeighbors(375, 500);
 
         processBlock1.start();
         processBlock2.start();
@@ -189,4 +194,19 @@ class Neighbor implements Comparable<Neighbor> {
     public String toString() {
         return String.format("it is %d and diff is %f", this.getActualValue(), this.getLengthBetween());
     }
+
+    /*@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Neighbor neighbor = (Neighbor) o;
+        return actualValue == neighbor.actualValue &&
+                Double.compare(neighbor.lengthBetween, lengthBetween) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(actualValue, lengthBetween);
+    }*/
 }

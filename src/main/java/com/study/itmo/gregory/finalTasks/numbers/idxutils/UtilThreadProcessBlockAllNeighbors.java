@@ -8,14 +8,21 @@ import static com.study.itmo.gregory.finalTasks.numbers.idxutils.IDXutils.*;
 
 //import static com.study.itmo.gregory.finalTasks.numbers.idxutils.IDXutils.totalAmount;
 
-public class UtilThreadProcessBlock extends Thread {
+/**
+ * this thread processes all training images the way
+ * that after compare iteration youll have 60000 objects(neighbors)
+ * each with its own length from test image.
+ * thus while having need in only 5-100 neighbors
+ * creating 60k objects is arguable
+ */
+public class UtilThreadProcessBlockAllNeighbors extends Thread {
     private static final Object monitor2 = new Object();
     private static final Object monitor3 = new Object();
 
     private int start;
     private int end;
 
-    public UtilThreadProcessBlock(int start, int end) {
+    public UtilThreadProcessBlockAllNeighbors(int start, int end) {
         this.start = start;
         this.end = end;
     }
@@ -34,17 +41,6 @@ public class UtilThreadProcessBlock extends Thread {
                 neighbors[j] = new Neighbor(trainLabels[j], length);
             }
 
-            /*UtilThreadProcessLength first = new UtilThreadProcessLength(0, 30000, testImage, trainImages, trainLabels, neighbors);
-            UtilThreadProcessLength second = new UtilThreadProcessLength(30000, 60000, testImage, trainImages, trainLabels, neighbors);
-            first.start();
-            second.start();
-            try {
-                first.join();
-                second.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-*/
             Arrays.sort(neighbors);
 
             //get array with N best matches
