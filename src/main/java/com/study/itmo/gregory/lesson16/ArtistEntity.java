@@ -1,25 +1,30 @@
 package com.study.itmo.gregory.lesson16;
 
+@MyAnno(trueIdTableName = "ArtistId", trueTableName = "Artist")
 public class ArtistEntity {
-    int id;
+    @IsField
+    @IsId
+    int artistId;
+    @IsField
     String name;
 
-    public ArtistEntity(int id, String name) {
-        this.id = id;
+    public ArtistEntity(int artistId, String name) {
+        this.artistId = artistId;
         this.name = name;
     }
+    public ArtistEntity(){}
 
     @Override
     public String toString() {
-        return String.format("[%d] %s", id, name);
+        return String.format("[%d] %s", artistId, name);
     }
 
-    public int getId() {
-        return id;
+    public int getArtistId() {
+        return artistId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setArtistId(int artistId) {
+        this.artistId = artistId;
     }
 
     public String getName() {

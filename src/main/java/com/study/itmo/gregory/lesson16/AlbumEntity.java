@@ -1,24 +1,29 @@
 package com.study.itmo.gregory.lesson16;
 
+@MyAnno(trueIdTableName = "AlbumId", trueTableName = "Album")
 public class AlbumEntity {
-    int id;
+    @IsField
+    @IsId
+    int albumId;
+    @IsField
     String title;
 
-    public AlbumEntity(int id, String title) {
-        this.id = id;
+    public AlbumEntity(int albumId, String title) {
+        this.albumId = albumId;
         this.title = title;
     }
+    public AlbumEntity(){}
     @Override
     public String toString() {
-        return String.format("[%d] %s", id, title);
+        return String.format("[%d] %s", albumId, title);
     }
 
-    public int getId() {
-        return id;
+    public int getAlbumId() {
+        return albumId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setAlbumId(int albumId) {
+        this.albumId = albumId;
     }
 
     public String getTitle() {
