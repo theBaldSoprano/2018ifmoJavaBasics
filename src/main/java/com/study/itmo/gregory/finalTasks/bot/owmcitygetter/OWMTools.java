@@ -1,23 +1,34 @@
 package com.study.itmo.gregory.finalTasks.bot.owmcitygetter;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
 import java.io.*;
+import java.lang.reflect.Array;
+import java.lang.reflect.Type;
 import java.net.*;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
+import java.util.*;
 
 import static com.study.itmo.gregory.finalTasks.bot.owmcitygetter.OWMcreditals.*;
 
 public class OWMTools {
     public static void main(String[] args) throws IOException {
         pullCitiesFile();
-        System.out.println(GZ_CITIES_FILE);
-        getJsonCitiesFile();
-        System.out.println(JSON_CITIES_FILE);
+        int lol = 0;
+        List<City> cities = getCities(getJsonCitiesFile());
+        Collections.sort(cities);
+
+        for (City city : cities) {
+            System.out.println(city.getName());
+            lol++;
+        }
+        System.out.println(lol);
     }
 
     public static void pullCitiesFile() throws IOException {
@@ -57,8 +68,12 @@ public class OWMTools {
         IOUtils.copy(in, new FileOutputStream(JSON_CITIES_FILE));
         return Paths.get(JSON_CITIES_FILE);
     }
-    /*public static List<City> getCities(){
 
-    }*/
+    public static List<City> getCities(Path path) throws IOException {
+        InputStream is = Files.newInputStream(path);
+        Gson json = new Gson();
+        Type type = new TypeToken<List<City>>(){}.getType();
 
+        return json.fromJson(new InputStreamReader(is), type);
+    }
 }

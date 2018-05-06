@@ -1,5 +1,7 @@
 package com.study.itmo.gregory.finalTasks.bot.owmcitygetter;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Objects;
 
 /**
@@ -16,7 +18,7 @@ import java.util.Objects;
         "lat": 41.400002
         }
 }*/
-public class City {
+public class City implements Comparable<City>{
     private int id;
     private String name;
     private String country;
@@ -73,5 +75,10 @@ public class City {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    @Override
+    public int compareTo(@NotNull City o2) {
+        return this.getName().compareTo(o2.getName());
     }
 }
