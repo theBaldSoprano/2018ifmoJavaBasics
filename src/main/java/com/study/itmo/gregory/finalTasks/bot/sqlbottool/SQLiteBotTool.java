@@ -1,4 +1,4 @@
-package com.study.itmo.gregory.finalTasks.bot;
+package com.study.itmo.gregory.finalTasks.bot.sqlbottool;
 
 import java.sql.*;
 import java.util.ArrayList;

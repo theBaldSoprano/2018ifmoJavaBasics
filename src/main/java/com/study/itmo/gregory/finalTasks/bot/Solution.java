@@ -6,6 +6,7 @@ import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.sql.SQLException;
 
 public class Solution {
     public static void main(String[] args) throws IOException, InterruptedException {
@@ -14,8 +15,9 @@ public class Solution {
         // Create the TelegramBotsApi object to register your bots
         TelegramBotsApi botsApi = new TelegramBotsApi();
         try {
-            botsApi.registerBot( new CommandBot());
-        } catch (TelegramApiRequestException e) {
+            botsApi.registerBot( new BaldWeatherBot());
+            //botsApi.registerBot( new CommandBot());
+        } catch (TelegramApiRequestException | SQLException e) {
             e.printStackTrace();
         }
         System.out.println("bot started");

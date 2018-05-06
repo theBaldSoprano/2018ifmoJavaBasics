@@ -1,4 +1,4 @@
-package com.study.itmo.gregory.finalTasks.bot;
+package com.study.itmo.gregory.finalTasks.bot.sqlbottool;
 
 import java.sql.SQLException;
 import java.util.*;

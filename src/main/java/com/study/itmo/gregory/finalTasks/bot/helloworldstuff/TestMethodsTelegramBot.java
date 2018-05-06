@@ -1,8 +1,7 @@
-package com.study.itmo.gregory.finalTasks.bot;
+package com.study.itmo.gregory.finalTasks.bot.helloworldstuff;
 
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.Chat;
-import org.telegram.telegrambots.api.objects.Contact;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.api.objects.stickers.Sticker;

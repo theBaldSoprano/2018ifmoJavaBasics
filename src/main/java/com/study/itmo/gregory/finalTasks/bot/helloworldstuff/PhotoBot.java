@@ -1,5 +1,6 @@
-package com.study.itmo.gregory.finalTasks.bot;
+package com.study.itmo.gregory.finalTasks.bot.helloworldstuff;
 
+import com.study.itmo.gregory.finalTasks.bot.Creditals;
 import org.telegram.telegrambots.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.api.objects.PhotoSize;
 import org.telegram.telegrambots.api.objects.Update;
