@@ -19,6 +19,20 @@ import java.util.Objects;
         }
 }*/
 public class City implements Comparable<City>{
+
+    public City(City city, Double diff){
+        this.country = city.getCountry();
+        this.id = city.getId();
+        this.name = city.getName();
+        this.lat = city.getLat();
+        this.lon = city.getLon();
+        this.diff = diff;
+    }
+
+    public City(String name) {
+        this.name = name;
+    }
+
     private int id;
     private String name;
     private String country;
@@ -77,8 +91,17 @@ public class City implements Comparable<City>{
         return Objects.hash(id);
     }
 
+    private Double diff;
+
+    public Double getDiff() {
+        return diff;
+    }
+    public void setDiff(Double diff) {
+        this.diff = diff;
+    }
+
     @Override
     public int compareTo(@NotNull City o2) {
-        return this.getName().compareTo(o2.getName());
+        return this.getDiff().compareTo(o2.getDiff());
     }
 }

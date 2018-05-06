@@ -50,9 +50,11 @@ public class BaldWeatherBot extends TelegramLongPollingBot {
                 ArrayList<KeyboardRow> replyKeyboard = new ArrayList<>();
                 KeyboardRow row = new KeyboardRow();
                 if (allUsers.contains(chatId)) {
+                    row.add("getWeather");
                     row.add("getSubscrbrs");
                     row.add("UnSubscribe me");
                 } else {
+                    row.add("getWeather");
                     row.add("getSubscrbrs");
                     row.add("Subscribe me");
                 }
@@ -89,6 +91,7 @@ public class BaldWeatherBot extends TelegramLongPollingBot {
                 ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();
                 ArrayList<KeyboardRow> replyKeyboard = new ArrayList<>();
                 KeyboardRow row = new KeyboardRow();
+                row.add("getWeather");
                 row.add("getSubscrbrs");
                 row.add("UnSubscribe me");
                 replyKeyboard.add(row);
@@ -114,11 +117,21 @@ public class BaldWeatherBot extends TelegramLongPollingBot {
                 ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();
                 ArrayList<KeyboardRow> replyKeyboard = new ArrayList<>();
                 KeyboardRow row = new KeyboardRow();
+                row.add("getWeather");
                 row.add("getSubscrbrs");
                 row.add("Subscribe me");
                 replyKeyboard.add(row);
                 keyboardMarkup.setKeyboard(replyKeyboard);
                 output.setReplyMarkup(keyboardMarkup);
+                try {
+                    execute(output);
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
+                }
+            }else if (message.getText().equals("getWeather")){
+                SendMessage output = new SendMessage();
+                output.setText("send me city name");
+                output.setChatId(chatId);
                 try {
                     execute(output);
                 } catch (TelegramApiException e) {
