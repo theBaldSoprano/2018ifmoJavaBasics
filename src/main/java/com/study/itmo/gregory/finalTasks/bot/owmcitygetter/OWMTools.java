@@ -1,28 +1,26 @@
 package com.study.itmo.gregory.finalTasks.bot.owmcitygetter;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.study.itmo.gregory.finalTasks.osmtask.Place;
+import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 
 import java.io.*;
-import java.lang.reflect.Type;
 import java.net.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
-import static com.study.itmo.gregory.finalTasks.bot.owmcitygetter.OWMcreditals.CITIES_JSON_GZ_ADDRESS;
-import static com.study.itmo.gregory.finalTasks.bot.owmcitygetter.OWMcreditals.GZ_CITIES_FILE;
+import static com.study.itmo.gregory.finalTasks.bot.owmcitygetter.OWMcreditals.*;
 
-public class OWMtools {
+public class OWMTools {
     public static void main(String[] args) throws IOException {
-        Path path = getCitiesFile();
-        System.out.println(path);
+        pullCitiesFile();
+        System.out.println(GZ_CITIES_FILE);
+        getJsonCitiesFile();
+        System.out.println(JSON_CITIES_FILE);
     }
 
-    public static Path getCitiesFile() throws IOException {
-
+    public static void pullCitiesFile() throws IOException {
         //prepare URL and establish http connection
         URL url = new URL(CITIES_JSON_GZ_ADDRESS);
         URLConnection urlConnection = url.openConnection();
@@ -52,9 +50,15 @@ public class OWMtools {
         //write bytes to local file specified in creds
         FileUtils.writeByteArrayToFile(new File(GZ_CITIES_FILE), data, false);
         //return path to this created file
-        return Paths.get(GZ_CITIES_FILE);
+        //return Paths.get(GZ_CITIES_FILE);
     }
-    public static Path getJsonCitiesFile(){
+    public static Path getJsonCitiesFile() throws IOException {
+        GzipCompressorInputStream in = new GzipCompressorInputStream(new FileInputStream(GZ_CITIES_FILE));
+        IOUtils.copy(in, new FileOutputStream(JSON_CITIES_FILE));
+        return Paths.get(JSON_CITIES_FILE);
+    }
+    /*public static List<City> getCities(){
 
-    }
+    }*/
+
 }
