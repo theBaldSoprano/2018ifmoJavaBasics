@@ -15,9 +15,10 @@ public class Solution {
         // Create the TelegramBotsApi object to register your bots
         TelegramBotsApi botsApi = new TelegramBotsApi();
         try {
-            botsApi.registerBot( new BaldWeatherBot());
+            botsApi.registerBot(new TestInlineBot());
+            //botsApi.registerBot( new BaldWeatherBot());
             //botsApi.registerBot( new CommandBot());
-        } catch (TelegramApiRequestException | SQLException e) {
+        } catch (TelegramApiRequestException e) {
             e.printStackTrace();
         }
         System.out.println("bot started");
