@@ -7,11 +7,14 @@ public class dbtest {
     public static void main(String[] args) throws SQLException {
         SQLiteBotTool tool  = new SQLiteBotTool("C:\\botdb\\botDB");
         tool.createUsersTable();
-        tool.addUser(555L);
+        tool.addUser(555L, "somecity");
 
-        ArrayList<Long> allUsers = tool.getAllUsers();
+        HashMap<Long, String> allUsers = tool.getAllUsers();
         System.out.println(allUsers.size());
-        for (Long l: allUsers) System.out.println(l);
+
+        for (Map.Entry<Long, String> pair : allUsers.entrySet()){
+            System.out.println(pair.getKey() +  pair.getValue());
+        }
         System.out.println("**************************");
 
 

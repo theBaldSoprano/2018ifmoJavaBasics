@@ -1,7 +1,10 @@
 package com.study.itmo.gregory.finalTasks.bot.sqlbottool;
 
+import com.study.itmo.gregory.finalTasks.bot.owmcitygetter.City;
+
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class SQLiteBotTool {
@@ -32,8 +35,7 @@ public class SQLiteBotTool {
     public void createUsersTable() throws SQLException {
         Statement stmt = c.createStatement();
         String sql =
-                "CREATE TABLE IF NOT EXISTS " +
-                "USERS (CHATID INTEGER PRIMARY KEY NOT NULL)";
+                "CREATE TABLE IF NOT EXISTS USERS (CHATID INTEGER PRIMARY KEY NOT NULL, CITY TEXT NOT NULL)";
         stmt.execute(sql);
         stmt.close();
     }
@@ -43,12 +45,11 @@ public class SQLiteBotTool {
      * @param chatId
      * @throws SQLException
      */
-    public void addUser(Long chatId) throws SQLException {
+    public void addUser(Long chatId, String cityName) throws SQLException {
         Statement stmt;
         stmt = c.createStatement();
-        String sql = "INSERT INTO USERS (CHATID) " +
-                "VALUES (%d);";
-        stmt.execute(String.format(sql, chatId));
+        String sql = "INSERT INTO USERS (CHATID, CITY) VALUES (%d, '%s');";
+        stmt.execute(String.format(sql, chatId, cityName));
         stmt.close();
     }
 
@@ -57,14 +58,15 @@ public class SQLiteBotTool {
      * @return arrayList with all existing chat id's
      * @throws SQLException
      */
-    public ArrayList<Long> getAllUsers() throws SQLException {
-        ArrayList<Long> result = new ArrayList<>();
+    public HashMap<Long, String> getAllUsers() throws SQLException {
+        HashMap<Long, String> result = new HashMap<>();
         Statement stmt = c.createStatement();
         ResultSet rs = stmt.executeQuery(
-                "SELECT CHATID FROM USERS" );
+                "SELECT * FROM USERS" );
         while (rs.next()) {
             Long id = rs.getLong("CHATID");
-            result.add(id);
+            String city = rs.getString("CITY");
+            result.put(id, city);
         }
         rs.close();
         stmt.close();

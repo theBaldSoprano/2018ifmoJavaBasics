@@ -7,7 +7,6 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.net.*;
 import java.nio.file.Files;
@@ -21,16 +20,13 @@ public class OWMTools {
     public static void main(String[] args) throws IOException {
         pullCitiesFile();
         int lol = 0;
-        List<City> cities = getCities(getJsonCitiesFile());
-        Collections.sort(cities);
+        List<City> cities = getCities(getUnzippedJsonCitiesFile());
+        City city = cities.get(0);
+        System.out.println(city.toString());
 
-        for (City city : cities) {
-            System.out.println(city.getName());
-            lol++;
-        }
-        System.out.println(lol);
     }
 
+    //GETTING CITIES LIST
     public static void pullCitiesFile() throws IOException {
         //prepare URL and establish http connection
         URL url = new URL(CITIES_JSON_GZ_ADDRESS);
@@ -63,12 +59,11 @@ public class OWMTools {
         //return path to this created file
         //return Paths.get(GZ_CITIES_FILE);
     }
-    public static Path getJsonCitiesFile() throws IOException {
+    public static Path getUnzippedJsonCitiesFile() throws IOException {
         GzipCompressorInputStream in = new GzipCompressorInputStream(new FileInputStream(GZ_CITIES_FILE));
         IOUtils.copy(in, new FileOutputStream(JSON_CITIES_FILE));
         return Paths.get(JSON_CITIES_FILE);
     }
-
     public static List<City> getCities(Path path) throws IOException {
         InputStream is = Files.newInputStream(path);
         Gson json = new Gson();
@@ -76,4 +71,7 @@ public class OWMTools {
 
         return json.fromJson(new InputStreamReader(is), type);
     }
+
+    //GETTING WEATHER
+
 }

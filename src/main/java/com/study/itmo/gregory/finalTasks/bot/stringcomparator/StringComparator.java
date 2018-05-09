@@ -3,19 +3,18 @@ package com.study.itmo.gregory.finalTasks.bot.stringcomparator;
 import com.study.itmo.gregory.finalTasks.bot.owmcitygetter.City;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.TreeSet;
 
 import static com.study.itmo.gregory.finalTasks.bot.owmcitygetter.OWMTools.getCities;
-import static com.study.itmo.gregory.finalTasks.bot.owmcitygetter.OWMTools.getJsonCitiesFile;
+import static com.study.itmo.gregory.finalTasks.bot.owmcitygetter.OWMTools.getUnzippedJsonCitiesFile;
 import static com.study.itmo.gregory.finalTasks.bot.owmcitygetter.OWMTools.pullCitiesFile;
 
 public class StringComparator {
     public static void main(String[] args) throws IOException {
 
         pullCitiesFile();
-        List<City> cities = getCities(getJsonCitiesFile());
+        List<City> cities = getCities(getUnzippedJsonCitiesFile());
         TreeSet<City> sugg = getSuggestionMap(cities, new City("Saint-petersburg"));
 
         for (City c : sugg) System.out.println(c.getName());

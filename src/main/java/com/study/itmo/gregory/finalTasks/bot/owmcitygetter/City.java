@@ -104,4 +104,16 @@ public class City implements Comparable<City>{
     public int compareTo(@NotNull City o2) {
         return this.getDiff().compareTo(o2.getDiff());
     }
+
+    @Override
+    public String toString() {
+        return "City{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", country='" + country + '\'' +
+                ", lon=" + lon +
+                ", lat=" + lat +
+                ", diff=" + diff +
+                '}';
+    }
 }

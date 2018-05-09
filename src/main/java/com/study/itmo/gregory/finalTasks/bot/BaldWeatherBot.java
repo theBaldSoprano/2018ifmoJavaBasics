@@ -12,42 +12,40 @@ import org.telegram.telegrambots.exceptions.TelegramApiException;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.TreeSet;
+import java.util.*;
 
 import static com.study.itmo.gregory.finalTasks.bot.owmcitygetter.OWMTools.getCities;
-import static com.study.itmo.gregory.finalTasks.bot.owmcitygetter.OWMTools.getJsonCitiesFile;
+import static com.study.itmo.gregory.finalTasks.bot.owmcitygetter.OWMTools.getUnzippedJsonCitiesFile;
 import static com.study.itmo.gregory.finalTasks.bot.owmcitygetter.OWMTools.pullCitiesFile;
 import static com.study.itmo.gregory.finalTasks.bot.stringcomparator.StringComparator.getSuggestionMap;
 
 public class BaldWeatherBot extends TelegramLongPollingBot {
-    SQLiteBotTool tool;
     Update previousUpdate;
+    SQLiteBotTool tool;
     public static List<City> cities;
-
     static {
         try {
+            System.out.println("we now will pull cities");
             pullCitiesFile();
-            cities = getCities(getJsonCitiesFile());
+            System.out.println("pulled cities OK@))200");
+            cities = getCities(getUnzippedJsonCitiesFile());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public BaldWeatherBot() throws SQLException {
-        this.tool = new SQLiteBotTool("C:\\botdb\\botDB");
+        this.tool = new SQLiteBotTool("C:\\weatherbot\\botDB");
         tool.createUsersTable();
-        ArrayList<Long> allUsers = tool.getAllUsers();
-        if (!allUsers.contains(888L)) {
-            tool.addUser(888L);
+        HashMap<Long, String> allUsers = tool.getAllUsers();
+        if (!allUsers.containsKey(888L)) {
+            tool.addUser(888L, "cti");
         }
-        if (!allUsers.contains(777L)) {
-            tool.addUser(777L);
+        if (!allUsers.containsKey(777L)) {
+            tool.addUser(777L, "cti");
         }
-        if (!allUsers.contains(555L)) {
-            tool.addUser(555L);
+        if (!allUsers.containsKey(555L)) {
+            tool.addUser(555L, "cti");
         }
     }
 
@@ -56,9 +54,9 @@ public class BaldWeatherBot extends TelegramLongPollingBot {
         if (update.hasMessage() && update.getMessage().hasText()) {
             Message message = update.getMessage();
             Long chatId = update.getMessage().getChatId();
-            ArrayList<Long> allUsers = new ArrayList<>();
+            HashMap<Long, String> allUsers = new HashMap<>();
             try {
-                allUsers.addAll(tool.getAllUsers());
+                allUsers.putAll(tool.getAllUsers());
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -70,7 +68,7 @@ public class BaldWeatherBot extends TelegramLongPollingBot {
                 ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();
                 ArrayList<KeyboardRow> replyKeyboard = new ArrayList<>();
                 KeyboardRow row = new KeyboardRow();
-                if (allUsers.contains(chatId)) {
+                if (allUsers.containsKey(chatId)) {
                     row.add("getWeather");
                     row.add("getSubscrbrs");
                     row.add("UnSubscribe me");
@@ -100,9 +98,9 @@ public class BaldWeatherBot extends TelegramLongPollingBot {
                 }
             //*********************/SUBSCRIBE*************************
             } else if (message.getText().equals("Subscribe me")) {
-                if (!allUsers.contains(chatId)) {
+                if (!allUsers.containsKey(chatId)) {
                     try {
-                        tool.addUser(chatId);
+                        tool.addUser(chatId, message.getText());
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
@@ -126,7 +124,7 @@ public class BaldWeatherBot extends TelegramLongPollingBot {
                 }
             //*********************/UN SUBSCRIBE*************************
             }else if (message.getText().equals("UnSubscribe me")){
-                if (allUsers.contains(chatId)) {
+                if (allUsers.containsKey(chatId)) {
                     try {
                         tool.deleteUser(chatId);
                     } catch (SQLException e) {
