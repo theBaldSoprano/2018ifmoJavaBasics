@@ -1,11 +1,7 @@
 package com.study.itmo.gregory.finalTasks.bot.sqlbottool;
 
-import com.study.itmo.gregory.finalTasks.bot.owmcitygetter.City;
-
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class SQLiteBotTool {
     private Connection c = null;

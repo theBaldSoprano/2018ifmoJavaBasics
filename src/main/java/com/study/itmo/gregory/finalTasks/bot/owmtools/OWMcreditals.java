@@ -1,4 +1,4 @@
-package com.study.itmo.gregory.finalTasks.bot.owmcitygetter;
+package com.study.itmo.gregory.finalTasks.bot.owmtools;
 
 /**
  * here comes creditals you will need while work with open weather map

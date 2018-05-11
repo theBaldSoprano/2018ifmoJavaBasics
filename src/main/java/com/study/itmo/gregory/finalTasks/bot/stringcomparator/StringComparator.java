@@ -1,14 +1,14 @@
 package com.study.itmo.gregory.finalTasks.bot.stringcomparator;
 
-import com.study.itmo.gregory.finalTasks.bot.owmcitygetter.City;
+import com.study.itmo.gregory.finalTasks.bot.owmtools.City;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.TreeSet;
 
-import static com.study.itmo.gregory.finalTasks.bot.owmcitygetter.OWMTools.getCities;
-import static com.study.itmo.gregory.finalTasks.bot.owmcitygetter.OWMTools.getUnzippedJsonCitiesFile;
-import static com.study.itmo.gregory.finalTasks.bot.owmcitygetter.OWMTools.pullCitiesFile;
+import static com.study.itmo.gregory.finalTasks.bot.owmtools.OWMTools.getCities;
+import static com.study.itmo.gregory.finalTasks.bot.owmtools.OWMTools.getUnzippedJsonCitiesFile;
+import static com.study.itmo.gregory.finalTasks.bot.owmtools.OWMTools.pullCitiesFile;
 
 public class StringComparator {
     public static void main(String[] args) throws IOException {

@@ -1,6 +1,6 @@
 package com.study.itmo.gregory.finalTasks.bot;
 
-import com.study.itmo.gregory.finalTasks.bot.owmcitygetter.City;
+import com.study.itmo.gregory.finalTasks.bot.owmtools.City;
 import com.study.itmo.gregory.finalTasks.bot.sqlbottool.SQLiteBotTool;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.Message;
@@ -14,9 +14,9 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.*;
 
-import static com.study.itmo.gregory.finalTasks.bot.owmcitygetter.OWMTools.getCities;
-import static com.study.itmo.gregory.finalTasks.bot.owmcitygetter.OWMTools.getUnzippedJsonCitiesFile;
-import static com.study.itmo.gregory.finalTasks.bot.owmcitygetter.OWMTools.pullCitiesFile;
+import static com.study.itmo.gregory.finalTasks.bot.owmtools.OWMTools.getCities;
+import static com.study.itmo.gregory.finalTasks.bot.owmtools.OWMTools.getUnzippedJsonCitiesFile;
+import static com.study.itmo.gregory.finalTasks.bot.owmtools.OWMTools.pullCitiesFile;
 import static com.study.itmo.gregory.finalTasks.bot.stringcomparator.StringComparator.getSuggestionMap;
 
 public class BaldWeatherBot extends TelegramLongPollingBot {

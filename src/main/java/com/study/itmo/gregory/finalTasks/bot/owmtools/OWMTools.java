@@ -1,4 +1,4 @@
-package com.study.itmo.gregory.finalTasks.bot.owmcitygetter;
+package com.study.itmo.gregory.finalTasks.bot.owmtools;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -14,7 +14,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
-import static com.study.itmo.gregory.finalTasks.bot.owmcitygetter.OWMcreditals.*;
+import static com.study.itmo.gregory.finalTasks.bot.owmtools.OWMcreditals.*;
 
 public class OWMTools {
     public static void main(String[] args) throws IOException {

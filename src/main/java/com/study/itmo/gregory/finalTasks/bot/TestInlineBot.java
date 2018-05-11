@@ -1,6 +1,6 @@
 package com.study.itmo.gregory.finalTasks.bot;
 
-import com.study.itmo.gregory.finalTasks.bot.owmcitygetter.City;
+import com.study.itmo.gregory.finalTasks.bot.owmtools.City;
 import com.study.itmo.gregory.finalTasks.bot.sqlbottool.SQLiteBotTool;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.methods.updatingmessages.EditMessageText;
@@ -18,9 +18,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import static com.study.itmo.gregory.finalTasks.bot.Creditals.INTRO_PHRASE;
-import static com.study.itmo.gregory.finalTasks.bot.owmcitygetter.OWMTools.getCities;
-import static com.study.itmo.gregory.finalTasks.bot.owmcitygetter.OWMTools.getUnzippedJsonCitiesFile;
-import static com.study.itmo.gregory.finalTasks.bot.owmcitygetter.OWMTools.pullCitiesFile;
+import static com.study.itmo.gregory.finalTasks.bot.owmtools.OWMTools.getCities;
+import static com.study.itmo.gregory.finalTasks.bot.owmtools.OWMTools.getUnzippedJsonCitiesFile;
+import static com.study.itmo.gregory.finalTasks.bot.owmtools.OWMTools.pullCitiesFile;
 
 public class TestInlineBot extends TelegramLongPollingBot {
 

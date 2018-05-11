@@ -1,4 +1,4 @@
-package com.study.itmo.gregory.finalTasks.bot.owmcitygetter;
+package com.study.itmo.gregory.finalTasks.bot.owmtools;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -6,7 +6,7 @@ import java.util.Objects;
 
 /**
  * class placeholder for
- * city Entity from Open Weather Map db
+ * city Entity from Open WeatherForecast Map db
  * info is provided by json file
  */
 /*{      EXAMPLE
