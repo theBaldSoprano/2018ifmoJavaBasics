@@ -11,6 +11,8 @@ public class OWMcreditals {
     public static final String HOME = "C:\\weatherbot\\";
     public static final String GZ_CITIES_FILE = String.format("%scity.list.json.gz", HOME);
     public static final String JSON_CITIES_FILE = String.format("%scity.list.json", HOME);
-
-
+    //api.openweathermap.org/data/2.5/weather?id=2172797&APPID=1111111111
+    public static final String WEATHER_ADDRESS_BYID = "https://api.openweathermap.org/data/2.5/weather?id=%d&APPID=%s";
+    public static final String WEATHER_ADDRESS_BYLOC = "https://api.openweathermap.org/data/2.5/weather?lat=%f&lon=%f&APPID=%s";
+    //api.openweathermap.org/data/2.5/weather?lat=35&lon=139
 }

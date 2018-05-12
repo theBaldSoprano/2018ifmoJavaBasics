@@ -3,6 +3,7 @@ package com.study.itmo.gregory.finalTasks.bot.owmtools;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 public class WeatherForecast {
     //todo check me
@@ -11,7 +12,7 @@ public class WeatherForecast {
     //city id
     private long id;
     private Coordinates coord;
-    private Weather weather;
+    private List<Weather> weather;
     private MainInfo main;
     private Wind wind;
 
@@ -121,13 +122,7 @@ public class WeatherForecast {
 
     @Override
     public String toString() {
-        return "WeatherForecast{" +
-                "name='" + name + '\'' +
-                ", id=" + id +
-                ", coord=" + coord +
-                ", weather=" + weather +
-                ", main=" + main +
-                ", wind=" + wind +
-                '}';
+        return String.format("city name is %s%ncity id = %d%ncoords are %s%n" +
+                "weather is %s%nmain info %s%nwind is %s", name, id, coord, weather,main, wind);
     }
 }

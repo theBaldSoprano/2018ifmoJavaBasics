@@ -4,6 +4,7 @@ import com.study.itmo.gregory.finalTasks.bot.owmtools.City;
 import com.study.itmo.gregory.finalTasks.bot.sqlbottool.SQLiteBotTool;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.methods.updatingmessages.EditMessageText;
+import org.telegram.telegrambots.api.objects.Location;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.api.objects.replykeyboard.InlineKeyboardMarkup;
