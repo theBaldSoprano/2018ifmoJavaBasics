@@ -1,7 +1,9 @@
 package com.study.itmo.gregory.finalTasks.bot;
 
 import com.study.itmo.gregory.finalTasks.bot.owmtools.City;
+import com.study.itmo.gregory.finalTasks.bot.owmtools.WeatherForecast;
 import com.study.itmo.gregory.finalTasks.bot.sqlbottool.SQLiteBotTool;
+import com.study.itmo.gregory.finalTasks.bot.stringcomparator.StringComparator;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.api.objects.Location;
@@ -17,15 +19,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.TreeSet;
 
 import static com.study.itmo.gregory.finalTasks.bot.Creditals.INTRO_PHRASE;
-import static com.study.itmo.gregory.finalTasks.bot.owmtools.OWMTools.getCities;
-import static com.study.itmo.gregory.finalTasks.bot.owmtools.OWMTools.getUnzippedJsonCitiesFile;
-import static com.study.itmo.gregory.finalTasks.bot.owmtools.OWMTools.pullCitiesFile;
+import static com.study.itmo.gregory.finalTasks.bot.owmtools.OWMTools.*;
 
 public class TestInlineBot extends TelegramLongPollingBot {
 
     Update prevUpdate = new Update();
+    Update prevprevUpdate = new Update();
     SQLiteBotTool tool;
     public static List<City> cities;
     static {
@@ -38,11 +40,22 @@ public class TestInlineBot extends TelegramLongPollingBot {
         }
     }
     public TestInlineBot() throws SQLException {
-        this.tool = new SQLiteBotTool("C:\\botdb\\botDB");
+        this.tool = new SQLiteBotTool("C:\\weatherbot\\botDB");
         tool.createUsersTable();
     }
     @Override
     public void onUpdateReceived(Update update) {
+        /**
+         * in common part we pull all subscribers from DB
+         * to work with em differently
+         * notice: i pull db on every update iteration
+         * coz its not time expensive and i dont want
+         * difficult logic in sync part
+         * where we need keep java users map and db table up-to-date
+         *
+         * second thing is that we always need a keyboard
+         * so we will create one
+         */
         HashMap<Long, String> allUsers = new HashMap<>();
         try {
             allUsers.putAll(tool.getAllUsers());
@@ -52,6 +65,7 @@ public class TestInlineBot extends TelegramLongPollingBot {
         InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> rows = new ArrayList<>();
         List<InlineKeyboardButton> row = new ArrayList<>();
+
         //*******MESSAGE STUFF********
         if (update.hasMessage() && update.getMessage().hasText()){
             Message message = update.getMessage();
@@ -86,14 +100,33 @@ public class TestInlineBot extends TelegramLongPollingBot {
             }else if (prevUpdate.hasCallbackQuery() && prevUpdate.getCallbackQuery().getData().equals("getWeather")){
                 //output.setChatId(chatId).setText(String.format("the weather in %s is fine", message.getText()));
                 String cityName = message.getText();
+                boolean match = false;
                 for (City city : cities){
                     //EXACT MATCH!!!!!!!!!!!!
                     if (city.getName().equals(cityName)){
-                        long cityId = city.getId();
-
+                        match = true;
+                        WeatherForecast weather = new WeatherForecast();
+                        try {
+                            weather = getWeather(city);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        String tmp = String.format("temp is %f degrees%n%s%nfuck you gregory", weather.getMain().getTemp(), weather.getWeather().get(0).getDescription());
+                        output.setText(tmp).setChatId(chatId);
+                        break;
                     }
                 }
-
+                if (!match){
+                    TreeSet<City> suggestionMap = StringComparator.getSuggestionMap(cities, new City(cityName));
+                    output.setText("i suppose you mean:").setChatId(chatId);
+                    for (City city : suggestionMap){
+                        row = new ArrayList<>();
+                        row.add(new InlineKeyboardButton().setText(city.getName())
+                                .setCallbackData("WSuggestion" + city.getName()));
+                        rows.add(row);
+                    }
+                }
+                row = new ArrayList<>();
                 row.add(new InlineKeyboardButton()
                         .setText("Back to main menu")
                         .setCallbackData("back"));
@@ -111,6 +144,11 @@ public class TestInlineBot extends TelegramLongPollingBot {
                 
             }*/
         //*******CALLBACK STUFF********
+            /**'
+             * if user pressed inline button - the update generated
+             * will have callback query
+             * and will not have text
+             */
         }else if (update.hasCallbackQuery()){
             String callData = update.getCallbackQuery().getData();
             Integer messageId = update.getCallbackQuery().getMessage().getMessageId();
@@ -172,6 +210,41 @@ public class TestInlineBot extends TelegramLongPollingBot {
                     e.printStackTrace();
                 }
             }
+            //*********************PROCESS SUGGESTION OF CITY NAME WHEN GETTING WEATHER*************************
+            else if (callData.startsWith("WSuggestion")){
+                SendMessage output = new SendMessage();
+                output.setChatId(chatId);
+                String cityName = update.getCallbackQuery().getData().replaceFirst("WSuggestion", "");
+
+                String tmp = "error";
+                for (City city : cities){
+                    //EXACT MATCH!!!!!!!!!!!!
+                    if (city.getName().equals(cityName)){
+                        WeatherForecast weather = new WeatherForecast();
+                        try {
+                            weather = getWeather(city);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        tmp = String.format("temp is %f degrees%n%s%nfuck you gregory", weather.getMain().getTemp(), weather.getWeather().get(0).getDescription());
+                        break;
+                    }
+                }
+                output.setText(tmp);
+                row = new ArrayList<>();
+                row.add(new InlineKeyboardButton()
+                        .setText("Back to main menu")
+                        .setCallbackData("back"));
+                rows.add(row);
+                keyboard.setKeyboard(rows);
+                output.setReplyMarkup(keyboard);
+                try {
+                    execute(output);
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
+                }
+
+            }
         //LOCATION STUFF
         }else if (update.hasMessage() && update.getMessage().hasLocation()){
 
@@ -180,6 +253,7 @@ public class TestInlineBot extends TelegramLongPollingBot {
             }
 
         }
+        prevprevUpdate = prevUpdate;
         prevUpdate = update;
     }
     @Override

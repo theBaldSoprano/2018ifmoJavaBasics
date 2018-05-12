@@ -16,8 +16,8 @@ public class Solution {
         TelegramBotsApi botsApi = new TelegramBotsApi();
         try {
             System.out.println("trying to reg the bot ");
-            //botsApi.registerBot(new TestInlineBot());
-            botsApi.registerBot( new BaldWeatherBot());
+            botsApi.registerBot(new TestInlineBot());
+            //botsApi.registerBot( new BaldWeatherBot());
             //botsApi.registerBot( new CommandBot());
         } catch (TelegramApiRequestException e) {
             e.printStackTrace();

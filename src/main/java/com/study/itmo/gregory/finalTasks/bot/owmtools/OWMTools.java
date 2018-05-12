@@ -82,6 +82,7 @@ public class OWMTools {
     //GETTING WEATHER BY CITY ID
     public static WeatherForecast getWeather(City city) throws IOException {
         String tmp = String.format(WEATHER_ADDRESS_BYID, city.getId(), OWMTOKEN);
+        System.out.println("mark");
         System.out.println(tmp);
         URL url = new URL(tmp);
         URLConnection urlConnection = url.openConnection();

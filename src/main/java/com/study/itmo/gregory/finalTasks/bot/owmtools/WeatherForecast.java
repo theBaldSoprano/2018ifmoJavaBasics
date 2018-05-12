@@ -16,8 +16,55 @@ public class WeatherForecast {
     private MainInfo main;
     private Wind wind;
 
+    public String getName() {
+        return name;
+    }
 
-    private class Weather{
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public Coordinates getCoord() {
+        return coord;
+    }
+
+    public void setCoord(Coordinates coord) {
+        this.coord = coord;
+    }
+
+    public List<Weather> getWeather() {
+        return weather;
+    }
+
+    public void setWeather(List<Weather> weather) {
+        this.weather = weather;
+    }
+
+    public MainInfo getMain() {
+        return main;
+    }
+
+    public void setMain(MainInfo main) {
+        this.main = main;
+    }
+
+    public Wind getWind() {
+        return wind;
+    }
+
+    public void setWind(Wind wind) {
+        this.wind = wind;
+    }
+
+    public class Weather{
         private String description;
 
         @Override
@@ -35,7 +82,7 @@ public class WeatherForecast {
             this.description = description;
         }
     }
-    private class Wind{
+    public class Wind{
         private double speed;
 
         @Override
@@ -53,7 +100,7 @@ public class WeatherForecast {
             this.speed = speed;
         }
     }
-    private class MainInfo{
+    public class MainInfo{
         private double temp;
         private double pressure;
         private double humidity;
@@ -91,7 +138,7 @@ public class WeatherForecast {
             this.humidity = humidity;
         }
     }
-    private class Coordinates {
+    public class Coordinates {
         @Override
         public String toString() {
             return "Coordinates{" +
